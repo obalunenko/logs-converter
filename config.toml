@@ -1,0 +1,6 @@
+LogLevel="Debug"
+LogsFilesListJSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
+MongoURL="localhost:27017"
+MongoDB="myDB"
+MongoCollection="logs"
+DropDB=false
