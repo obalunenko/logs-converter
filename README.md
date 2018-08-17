@@ -8,16 +8,16 @@ on their basis insert MongoDB documents with a monotonous structure.
 1. Install Mongo (oficial installation guides: <https://docs.mongodb.com/manual/installation/)>
 2. Run mongo
     ```bash
-    mongod
+      mongod
     ```
 3. Update `config.toml` file in the root of repository with actual parameters and save it (see Configuration)
 4. From root of repository run
     ```bash
-    go build
+      go build
     ```
 5. Run tool
     ```bash
-    .logs-converter
+      .logs-converter
     ```
 
 ## Configuration
@@ -66,12 +66,12 @@ Tool could be configured in 3 ways:
 example of `config.toml`:
 
 ```toml
-LogLevel="Info"
+LogLevel="Debug"
 LogsFilesListJSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
 MongoURL="localhost:27017"
 MongoDB="myDB"
 MongoCollection="logs"
-DropDB=false
+DropDB=true
 ```
 
 ### environment variables

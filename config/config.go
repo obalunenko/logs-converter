@@ -59,11 +59,7 @@ func LoadConfig() *Config {
 		log.Fatalf("Failed to load configuration: %v", err)
 	}
 
-	logLevel, err := log.ParseLevel(svcConfig.LogLevel)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.SetLevel(logLevel)
+	setLogger(svcConfig)
 
 	// Parse log files names with formats
 	svcConfig.LogsFilesList = make(map[string]string)
@@ -76,6 +72,9 @@ func LoadConfig() *Config {
 	if err != nil {
 
 		log.Fatalf("Config struct is invalid: %v\n", err)
+	}
+	if len(svcConfig.LogsFilesList) == 0 {
+		log.Fatalf("No log files provided: [%+v], Exiting", svcConfig.LogsFilesList)
 	}
 
 	log.Infof("Configuration loaded\n")
@@ -134,5 +133,21 @@ func newConfig(path string, prefix string, camelCase bool) *multiconfig.DefaultL
 	d.Loader = loader
 	d.Validator = multiconfig.MultiValidator(&multiconfig.RequiredValidator{})
 	return d
+
+}
+
+func setLogger(cfg *Config) {
+	formatter := &log.TextFormatter{
+		FullTimestamp:   true,
+		TimestampFormat: "2006-01-02 15:04:05",
+		DisableSorting:  false,
+		ForceColors:     true,
+	}
+	log.SetFormatter(formatter)
+	lvl, err := log.ParseLevel(cfg.LogLevel)
+	if err != nil {
+		lvl = log.InfoLevel
+	}
+	log.SetLevel(lvl)
 
 }

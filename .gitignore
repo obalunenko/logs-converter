@@ -18,3 +18,5 @@
 version
 
 #testdata/
+
+config\.toml

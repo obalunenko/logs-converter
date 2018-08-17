@@ -5,7 +5,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"gitlab.com/oleg.balunenko/logs-converter/config"
-	"gitlab.com/oleg.balunenko/logs-converter/models"
+
 	mgo "gopkg.in/mgo.v2"
 )
 
@@ -27,12 +27,14 @@ func Connect(cfg *config.Config) *mgo.Collection {
 
 // CloseConnection closes mongo connection
 func CloseConnection(collection *mgo.Collection) {
+	log.Infof("Closing connection...")
 	collection.Database.Session.Close()
 
 }
 
 // StoreModel insert model to collection
-func StoreModel(model *models.LogModel, collection *mgo.Collection) error {
+func StoreModel(model interface{}, collection *mgo.Collection) error {
+	log.Debugf("Storing model [%+v] to collection [%+v]", model, collection)
 	errInsert := collection.Insert(model)
 	if errInsert != nil {
 		return fmt.Errorf("failed to store model %+v at [%v.%v]: %v", model, collection.Database, collection.Name, errInsert)

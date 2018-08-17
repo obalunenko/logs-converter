@@ -7,15 +7,14 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"gitlab.com/oleg.balunenko/logs-converter/config"
-	"gitlab.com/oleg.balunenko/logs-converter/models"
+	"gitlab.com/oleg.balunenko/logs-converter/converter"
 	"gitlab.com/oleg.balunenko/logs-converter/mongo"
 )
 
 func main() {
+
 	cfg := config.LoadConfig()
-	if len(cfg.LogsFilesList) == 0 {
-		log.Fatalf("No log files provided: [%+v], Exiting", cfg.LogsFilesList)
-	}
+
 	dbCollection := mongo.Connect(cfg)
 
 	if cfg.DropDB {
@@ -25,10 +24,10 @@ func main() {
 
 	}
 
-	resChan := make(chan *models.LogModel)
+	resChan := make(chan *converter.LogModel)
 	for l, format := range cfg.LogsFilesList {
 
-		go startConverting(l, format, resChan)
+		go converter.Start(l, format, resChan)
 
 	}
 

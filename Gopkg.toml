@@ -42,5 +42,5 @@
   name = "gopkg.in/mgo.v2"
 
 [prune]
+  non-go = true
   go-tests = true
-  unused-packages = true
