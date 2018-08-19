@@ -15,7 +15,7 @@ import (
 
 func main() {
 
-	cfg := config.LoadConfig()
+	cfg := config.LoadConfig("config.toml")
 
 	dbCollection := mongo.Connect(cfg)
 
