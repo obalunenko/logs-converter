@@ -15,14 +15,15 @@ import (
 
 func main() {
 
-	cfg := config.LoadConfig("config.toml")
+	cfg, errLoadCfg := config.LoadConfig("config.toml")
+	if errLoadCfg != nil {
+		log.Fatalf("Failed to load config: %v \nExiting", errLoadCfg)
+	}
 
 	dbCollection := mongo.Connect(cfg)
 
 	if cfg.DropDB {
-		if errDrop := dbCollection.DropCollection(); errDrop != nil {
-			log.Fatalf("Failed to drop the collection [%+v.%+v]:%v", dbCollection, dbCollection.Database, errDrop)
-		}
+		mongo.DropDBCollection(dbCollection)
 
 	}
 
