@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"sync/atomic"
 	"syscall"
 	"text/tabwriter"
 
@@ -63,15 +62,15 @@ func main() {
 
 		case data := <-resChan:
 
-			atomic.AddUint64(&totalRecCnt, 1)
+			totalRecCnt++
 			log.Debugf("Received model: %+v", data)
 			log.Infof("Current amount of recieved models to store is: [%d]", totalRecCnt)
 			errStore := mongo.StoreModel(data, dbCollection)
 			if errStore != nil {
 				log.Errorf("Failed to store model...: %v", errStore)
-				atomic.AddUint64(&failedToStoreCnt, 1)
+				failedToStoreCnt++
 			} else {
-				atomic.AddUint64(&storedModelsCnt, 1)
+				storedModelsCnt++
 
 			}
 
