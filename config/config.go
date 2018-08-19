@@ -3,7 +3,6 @@ package config
 import (
 	"encoding/json"
 	"os"
-	"path"
 	"strings"
 
 	"github.com/koding/multiconfig"
@@ -44,13 +43,11 @@ func setFlagsHelp() map[string]string {
 }
 
 // LoadConfig loads configuration struct from env vars, flags or from toml file
-func LoadConfig() *Config {
+func LoadConfig(configPath string) *Config {
 
 	svcConfig := new(Config)
 
 	log.Infof("Loading configuration\n")
-
-	configPath := path.Join("config.toml")
 
 	m := newConfig(configPath, "KafkaDump", false)
 
