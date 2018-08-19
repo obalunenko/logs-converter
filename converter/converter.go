@@ -40,9 +40,10 @@ func Start(logName string, format string, resultChan chan *LogModel) {
 func processLine(logName string, line string, format string, lineNumber uint64) (model *LogModel, err error) {
 
 	lineElements := strings.Split(line, " | ")
-	if len(lineElements) < 1 {
-		log.Errorf("[%s]: Line [%d] has wrong log structure: %s", logName, lineNumber, line)
-		return nil, err
+
+	if len(lineElements) <= 1 {
+		log.Errorf("processLine: [%s]: Line [%d] has wrong log structure: %s", logName, lineNumber, line)
+		return nil, fmt.Errorf("[%s]: Line [%d] has wrong log structure: %s", logName, lineNumber, line)
 	}
 	logTime, err := parseTime(lineElements[0], format)
 	if err != nil {
@@ -74,7 +75,7 @@ func parseTime(logTimeStr string, format string) (time.Time, error) {
 	case firstFormat:
 		logTime, errParse := time.Parse(firstFormatLayout, logTimeStr)
 		if errParse != nil {
-			log.Errorf("failed to parse logTime [%s] as format [%s]: %v", logTimeStr, format, errParse)
+			log.Errorf("parseTime: failed to parse logTime [%s] as format [%s]: %v", logTimeStr, format, errParse)
 			return time.Time{}, fmt.Errorf("failed to parse logTime [%s] as format [%s]: %v", logTimeStr, format, errParse)
 		}
 
@@ -82,13 +83,13 @@ func parseTime(logTimeStr string, format string) (time.Time, error) {
 	case secondFormat:
 		logTime, errParse := time.Parse(secondFormatLayout, logTimeStr)
 		if errParse != nil {
-			log.Errorf("failed to parse logTime [%s] as format [%s]: %v", logTimeStr, format, errParse)
+			log.Errorf("parseTime: failed to parse logTime [%s] as format [%s]: %v", logTimeStr, format, errParse)
 			return time.Time{}, fmt.Errorf("failed to parse logTime [%s] as format [%s]: %v", logTimeStr, format, errParse)
 		}
 
 		return logTime, nil
 	default:
-		log.Errorf("unexpected time format received (%s)", logTimeStr)
+		log.Errorf("parseTime: unexpected time format received (%s)", logTimeStr)
 		return time.Time{}, fmt.Errorf("unexpected time format received (%s)", logTimeStr)
 	}
 
