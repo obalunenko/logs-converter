@@ -16,6 +16,7 @@ func testConfigCreate(configPath string, logsFilesListJSON string, logLevel stri
 		log.Fatalf("failed creating all dirs for config file %v", filepath.Dir(configPath), err)
 
 	}
+
 	configFile, err := os.OpenFile(configPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0777)
 	if err != nil {
 		log.Fatalf("error opening config file: %v", err)
@@ -40,6 +41,13 @@ func testConfigCreate(configPath string, logsFilesListJSON string, logLevel stri
 	return nil
 }
 
+func testConfigDelete(configPath string) {
+	err := os.Remove(configPath)
+	if err != nil {
+		log.Fatalf("Failed to delete old config file")
+	}
+}
+
 func TestLoadConfig(t *testing.T) {
 	type input struct {
 		logsFilesListJSON string
@@ -51,6 +59,7 @@ func TestLoadConfig(t *testing.T) {
 	}
 	type expectedResult struct {
 		wantConfig *Config
+		wantErr    bool
 	}
 	type testCase struct {
 		id             int
@@ -81,6 +90,39 @@ func TestLoadConfig(t *testing.T) {
 					DropDB:            true,
 					LogsFilesList:     map[string]string{"testdata/testfile1.log": "second_format", "testdata/dir1/testfile2.log": "first_format"},
 				},
+				wantErr: false,
+			},
+		},
+		testCase{
+			id:          2,
+			description: `Broken config: incorrect json with files`,
+			input: input{
+				logsFilesListJSON: `{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format`,
+				logLevel:          "Info",
+				mongoURL:          "localhost:27017",
+				mongoDB:           "myDB",
+				mongoCollection:   "logs",
+				dropDB:            true,
+			},
+			expectedResult: expectedResult{
+				wantConfig: nil,
+				wantErr:    true,
+			},
+		},
+		testCase{
+			id:          3,
+			description: `Broken config: empty json with files`,
+			input: input{
+				logsFilesListJSON: `{}`,
+				logLevel:          "Info",
+				mongoURL:          "localhost:27017",
+				mongoDB:           "myDB",
+				mongoCollection:   "logs",
+				dropDB:            true,
+			},
+			expectedResult: expectedResult{
+				wantConfig: nil,
+				wantErr:    true,
 			},
 		},
 	}
@@ -99,11 +141,18 @@ func TestLoadConfig(t *testing.T) {
 				t.Fatalf("Error while creating test config: %v", err)
 			}
 
-			gotModel := LoadConfig(configPath)
+			gotModel, err := LoadConfig(configPath)
+			testConfigDelete(configPath) // Delete old config file after it was loaded
+
+			if (err != nil) != tc.expectedResult.wantErr {
+				t.Errorf("processLine() error = %+v, \nwantErr %+v", err, tc.expectedResult.wantErr)
+				return
+			}
 
 			if !reflect.DeepEqual(gotModel, tc.expectedResult.wantConfig) {
 				t.Errorf("LoadConfig() = %+v, \nwant %+v", gotModel, tc.expectedResult.wantConfig)
 			}
+
 		})
 	}
 }

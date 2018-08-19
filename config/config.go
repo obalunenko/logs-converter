@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"strings"
 
@@ -43,7 +44,7 @@ func setFlagsHelp() map[string]string {
 }
 
 // LoadConfig loads configuration struct from env vars, flags or from toml file
-func LoadConfig(configPath string) *Config {
+func LoadConfig(configPath string) (*Config, error) {
 
 	svcConfig := new(Config)
 
@@ -53,7 +54,9 @@ func LoadConfig(configPath string) *Config {
 
 	err := m.Load(svcConfig)
 	if err != nil {
-		log.Fatalf("Failed to load configuration: %v", err)
+
+		log.Errorf("Failed to load configuration: %v", err)
+		return nil, fmt.Errorf("failed to load configuration: %v", err)
 	}
 
 	setLogger(svcConfig)
@@ -62,27 +65,34 @@ func LoadConfig(configPath string) *Config {
 	svcConfig.LogsFilesList = make(map[string]string)
 	errUnMarshal := json.Unmarshal([]byte(svcConfig.LogsFilesListJSON), &svcConfig.LogsFilesList)
 	if errUnMarshal != nil {
-		log.Fatal(errUnMarshal)
+		log.Errorf("Failed to unmarshal json with files [%s] to struct: %v", svcConfig.LogsFilesListJSON, errUnMarshal)
+		return nil, fmt.Errorf("failed to unmarshal json with files [%s] to struct: %v", svcConfig.LogsFilesListJSON, errUnMarshal)
 	}
 
 	err = m.Validate(svcConfig)
 	if err != nil {
 
-		log.Fatalf("Config struct is invalid: %v\n", err)
+		log.Errorf("Config struct is invalid: %v\n", err)
+		return nil, fmt.Errorf("config struct is invalid: %v", err)
 	}
 	if len(svcConfig.LogsFilesList) == 0 {
-		log.Fatalf("No log files provided: [%+v], Exiting", svcConfig.LogsFilesList)
+
+		log.Errorf("No log files provided: [%+v]", svcConfig.LogsFilesList)
+		return nil, fmt.Errorf("No log files provided: [%+v]", svcConfig.LogsFilesList)
 	}
 
 	log.Infof("Configuration loaded\n")
+
 	prettyConfig, err := json.MarshalIndent(svcConfig, "", "")
 	if err != nil {
-		log.Fatalf("Failed to marshal indent config: %v", err)
+
+		log.Errorf("Failed to marshal indent config: %v", err)
+		return nil, fmt.Errorf("failed to marshal indent config: %v", err)
 
 	}
 	log.Infof("Current config:\n %s", string(prettyConfig))
 
-	return svcConfig
+	return svcConfig, nil
 
 }
 
@@ -143,6 +153,7 @@ func setLogger(cfg *Config) {
 	log.SetFormatter(formatter)
 	lvl, err := log.ParseLevel(cfg.LogLevel)
 	if err != nil {
+		log.Warnf("Could not parse log level [%s], will be used Info", cfg.LogLevel)
 		lvl = log.InfoLevel
 	}
 	log.SetLevel(lvl)

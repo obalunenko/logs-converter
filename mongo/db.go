@@ -42,3 +42,11 @@ func StoreModel(model interface{}, collection *mgo.Collection) error {
 	log.Debugf("Successfully stored model [%+v]", model)
 	return nil
 }
+
+// DropDBCollection drops database collection
+func DropDBCollection(collection *mgo.Collection) {
+
+	if errDrop := collection.DropCollection(); errDrop != nil {
+		log.Fatalf("Failed to drop the collection [%+v.%+v]:%v", collection, collection.Database, errDrop)
+	}
+}
