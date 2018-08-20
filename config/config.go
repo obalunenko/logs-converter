@@ -16,6 +16,8 @@ type Config struct {
 	LogLevel          string            `default:"Info"`  // tool's logs level in stdout
 	LogsFilesList     map[string]string `json:"-"`        // LogsFilesList store unmarshalled json  LogsFilesListJSON
 	MongoURL          string            `required:"true"` // Mongo URL
+	MongoUsername     string            `default:""`
+	MongoPassword     string            `default:""`
 	MongoDB           string            `default:"myDB"`  // Mongo DB name
 	MongoCollection   string            `default:"logs"`  // Mongo DB collection
 	DropDB            bool              `default:"false"` // if true - will dorp whole collection
