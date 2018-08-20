@@ -54,6 +54,8 @@ func TestLoadConfig(t *testing.T) {
 		logLevel          string
 		mongoURL          string
 		mongoDB           string
+		mongoUsername     string
+		mongoPassword     string
 		mongoCollection   string
 		dropDB            bool
 	}
@@ -76,6 +78,8 @@ func TestLoadConfig(t *testing.T) {
 				logsFilesListJSON: `{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}`,
 				logLevel:          "Info",
 				mongoURL:          "localhost:27017",
+				mongoUsername:     "",
+				mongoPassword:     "",
 				mongoDB:           "myDB",
 				mongoCollection:   "logs",
 				dropDB:            true,
@@ -85,6 +89,8 @@ func TestLoadConfig(t *testing.T) {
 					LogsFilesListJSON: `{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}`,
 					LogLevel:          "Info",
 					MongoURL:          "localhost:27017",
+					MongoUsername:     "",
+					MongoPassword:     "",
 					MongoDB:           "myDB",
 					MongoCollection:   "logs",
 					DropDB:            true,
@@ -100,6 +106,8 @@ func TestLoadConfig(t *testing.T) {
 				logsFilesListJSON: `{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format`,
 				logLevel:          "Info",
 				mongoURL:          "localhost:27017",
+				mongoUsername:     "",
+				mongoPassword:     "",
 				mongoDB:           "myDB",
 				mongoCollection:   "logs",
 				dropDB:            true,
@@ -116,6 +124,8 @@ func TestLoadConfig(t *testing.T) {
 				logsFilesListJSON: `{}`,
 				logLevel:          "Info",
 				mongoURL:          "localhost:27017",
+				mongoUsername:     "",
+				mongoPassword:     "",
 				mongoDB:           "myDB",
 				mongoCollection:   "logs",
 				dropDB:            true,

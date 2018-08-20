@@ -2,6 +2,7 @@ package mongo
 
 import (
 	"fmt"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 	"gitlab.com/oleg.balunenko/logs-converter/config"
@@ -12,7 +13,15 @@ import (
 // Connect establish connection with mongoDB and return mgo.Collection
 func Connect(cfg *config.Config) *mgo.Collection {
 
-	session, errDial := mgo.Dial(cfg.MongoURL)
+	mongoDBDialInfo := &mgo.DialInfo{
+		Addrs:    []string{cfg.MongoURL},
+		Timeout:  60 * time.Second,
+		Database: cfg.MongoDB,
+		Username: cfg.MongoUsername,
+		Password: cfg.MongoPassword,
+	}
+
+	session, errDial := mgo.DialWithInfo(mongoDBDialInfo)
 	if errDial != nil {
 		log.Fatalf("Could not leave without Mongo: %v\nExiting...", errDial)
 
