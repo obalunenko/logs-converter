@@ -31,7 +31,7 @@ test-project:
       - mkdir -p $GOPATH/src/$REPO_NAME
       - ln -svf $CI_PROJECT_DIR/* $GOPATH/src/$REPO_NAME
       - cd $GOPATH/src/$REPO_NAME
-      - go test $(go list ./... | grep -v /vendor/) -v -coverprofile .testCoverage.out
+      - go test -v -coverprofile .testCoverage.out ./...
 
 
 compile:
