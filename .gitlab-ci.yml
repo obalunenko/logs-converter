@@ -3,6 +3,9 @@ image: golang:latest
 
 variables:
   REPO_NAME: gitlab.com/oleg.balunenko/logs-converter
+  GOARCH: amd64
+  PACKAGE_NAME: "$(basename "$REPO_NAME")"
+
 
 # The problem is that to be able to use go get, one needs to put
 # the repository in the $GOPATH. So for example if your gitlab domain
@@ -17,8 +20,7 @@ before_script:
   - mkdir -p $GOPATH/src/$REPO_NAME
   - ln -svf $CI_PROJECT_DIR/* $GOPATH/src/$REPO_NAME
   - cd $GOPATH/src/$REPO_NAME
-  - export PACKAGE_NAME="$(basename "$REPO_NAME")"
-  - export GOARCH=amd64
+  - go get -t ./...
    
 
 stages:
@@ -28,10 +30,9 @@ stages:
 test-project:
     stage: test
     script:
-      - mkdir -p $GOPATH/src/$REPO_NAME
-      - ln -svf $CI_PROJECT_DIR/* $GOPATH/src/$REPO_NAME
-      - cd $GOPATH/src/$REPO_NAME
-      - go test -v -coverprofile .testCoverage.out ./...
+      - go fmt $(go list ./... | grep -v /vendor/)
+      - go vet -composites=false $(go list ./... | grep -v /vendor/)
+      - go test -race $(go list ./... | grep -v /vendor/) -v -coverprofile .testCoverage.txt
 
 
 compile:
