@@ -1,5 +1,9 @@
 # logs-converter
 
+[![pipeline status](https://gitlab.com/oleg.balunenko/logs-converter/badges/master/pipeline.svg)](https://gitlab.com/oleg.balunenko/logs-converter/commits/master)
+
+[![coverage report](https://gitlab.com/oleg.balunenko/logs-converter/badges/master/coverage.svg)](https://gitlab.com/oleg.balunenko/logs-converter/commits/master)
+
 The converter will parse files with different log formats and according
 on their basis insert MongoDB documents with a monotonous structure.
 
