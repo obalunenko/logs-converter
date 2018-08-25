@@ -20,4 +20,3 @@ version
 #testdata/
 
 config\.toml
-coverage.out
