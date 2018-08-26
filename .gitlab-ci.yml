@@ -20,25 +20,36 @@ before_script:
   - mkdir -p ${GOPATH}/src/${REPO_NAME}
   - mkdir -p ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}
   - go get -u github.com/golang/dep/cmd/dep/...
-  - go get -u github.com/axw/gocov/...
   - cp -r ${CI_PROJECT_DIR}/* ${GOPATH}/src/${REPO_NAME}/
   - cd ${GOPATH}/src/${REPO_NAME}
    
 
 stages:
     - test
+    - lint
     - build
+    
 
-test-project:
+Metalinter analysis:
+    stage: lint
+    script:
+      - go get -u github.com/alecthomas/gometalinter/...
+      - gometalinter --install
+      - go vet -composites=false $(go list ./... | grep -v /vendor/)
+      - gometalinter --vendor --disable=gotype --linter='errcheck:errcheck -blank . :PATH:LINE:COL:MESSAGE'
+
+Unit Tests:
     stage: test
     script:
+      - go get -u github.com/axw/gocov/...
       - go fmt $(go list ./... | grep -v /vendor/)
-      - go vet -composites=false $(go list ./... | grep -v /vendor/)
       - go test -race -coverpkg=./... -v -coverprofile .testCoverage.out ./...
       - gocov convert .testCoverage.out | gocov report
 
 
-compile:
+
+
+Build Application:
     stage: build
     script:
 
