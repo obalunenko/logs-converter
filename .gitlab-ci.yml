@@ -20,6 +20,7 @@ before_script:
   - mkdir -p ${GOPATH}/src/${REPO_NAME}
   - mkdir -p ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}
   - go get -u github.com/golang/dep/cmd/dep
+  - go get -u github.com/axw/gocov
   - cp -r ${CI_PROJECT_DIR}/* ${GOPATH}/src/${REPO_NAME}/
   - cd ${GOPATH}/src/${REPO_NAME}
    
@@ -34,6 +35,7 @@ test-project:
       - go fmt $(go list ./... | grep -v /vendor/)
       - go vet -composites=false $(go list ./... | grep -v /vendor/)
       - go test -race $(go list ./... | grep -v /vendor/) -v -coverprofile .testCoverage.txt
+      - gocov convert .testCoverage.out | gocov report
 
 
 compile:
