@@ -1,4 +1,4 @@
-image: golang:1.11
+image: golang:latest
 
 variables:
   REPO_NAME: gitlab.com/oleg.balunenko/logs-converter
