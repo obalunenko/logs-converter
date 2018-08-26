@@ -13,15 +13,20 @@ on their basis insert MongoDB documents with a monotonous structure.
 
 1. Install Mongo (oficial installation guides: <https://docs.mongodb.com/manual/installation/)>
 2. Run mongo
+
     ```bash
       mongod
     ```
+
 3. Update `config.toml` file in the root of repository with actual parameters and save it (see Configuration)
 4. From root of repository run
+
     ```bash
       go build
     ```
+
 5. Run tool
+
     ```bash
       .logs-converter
     ```
