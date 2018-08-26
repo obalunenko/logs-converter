@@ -19,8 +19,8 @@ before_script:
   - go version
   - mkdir -p ${GOPATH}/src/${REPO_NAME}
   - mkdir -p ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}
-  - go get -u github.com/golang/dep/cmd/dep
-  - go get -u github.com/axw/gocov
+  - go get -u github.com/golang/dep/cmd/dep/...
+  - go get -u github.com/axw/gocov/...
   - cp -r ${CI_PROJECT_DIR}/* ${GOPATH}/src/${REPO_NAME}/
   - cd ${GOPATH}/src/${REPO_NAME}
    
