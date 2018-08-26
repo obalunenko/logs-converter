@@ -34,7 +34,7 @@ test-project:
     script:
       - go fmt $(go list ./... | grep -v /vendor/)
       - go vet -composites=false $(go list ./... | grep -v /vendor/)
-      - go test -race -coverpkg=./... -v -coverprofile .testCoverage.out
+      - go test -race -coverpkg=./... -v -coverprofile .testCoverage.out ./...
       - gocov convert .testCoverage.out | gocov report
 
 
