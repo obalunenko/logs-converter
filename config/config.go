@@ -16,8 +16,8 @@ type Config struct {
 	LogLevel          string            `default:"Info"`  // tool's logs level in stdout
 	LogsFilesList     map[string]string `json:"-"`        // LogsFilesList store unmarshalled json  LogsFilesListJSON
 	MongoURL          string            `required:"true"` // Mongo URL
-	MongoUsername     string            `default:""`
-	MongoPassword     string            `default:""`
+	MongoUsername     string            `default:""`      // MongoUsername
+	MongoPassword     string            `default:""`      // MongoPassword
 	MongoDB           string            `default:"myDB"`  // Mongo DB name
 	MongoCollection   string            `default:"logs"`  // Mongo DB collection
 	DropDB            bool              `default:"false"` // if true - will dorp whole collection
@@ -41,6 +41,8 @@ func setFlagsHelp() map[string]string {
 	usageMsg["MongoCollection"] = "Mongo DB collection"
 	usageMsg["MongoDB"] = "Mongo DB name"
 	usageMsg["DropDB"] = "if true - will drop whole collection before starting to store all logs"
+	usageMsg["MongoPassword"] = "MongoDB Password"
+	usageMsg["MongoUsername"] = "MongoDB Username"
 
 	return usageMsg
 }
