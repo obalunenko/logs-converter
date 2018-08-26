@@ -49,7 +49,7 @@ func main() {
 			w := new(tabwriter.Writer)
 			w.Init(os.Stdout, 0, 0, 0, ' ', tabwriter.Debug|tabwriter.AlignRight)
 			_, err := fmt.Fprintf(w, "Execution statistics:\n"+
-				"Total models recived\tStored in DB\tFailed to store in DB\n"+
+				"Total models received\tStored in DB\tFailed to store in DB\n"+
 				"%d\t%d\t%d", totalRecCnt, storedModelsCnt, failedToStoreCnt)
 			if err != nil {
 				log.Fatalf("Failed to print statistic: %v", err)
@@ -65,7 +65,7 @@ func main() {
 
 			totalRecCnt++
 			log.Debugf("Received model: %+v", data)
-			log.Infof("Current amount of recieved models to store is: [%d]", totalRecCnt)
+			log.Infof("Current amount of received models to store is: [%d]", totalRecCnt)
 			errStore := mongo.StoreModel(data, dbCollection)
 			if errStore != nil {
 				log.Errorf("Failed to store model...: %v", errStore)

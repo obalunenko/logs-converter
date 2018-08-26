@@ -101,7 +101,7 @@ func Test_processLine(t *testing.T) {
 		},
 		testCase{
 			id:          5,
-			description: `Negative case. Format missmatch - time format is second, but in config specifed that file has first`,
+			description: `Negative case. Format missmatch - time format is second, but in config specified that file has first`,
 			input: input{
 				logName:    "test",
 				line:       `2018-02-01T15:04:05Z | This is log message`,
@@ -115,7 +115,7 @@ func Test_processLine(t *testing.T) {
 		},
 		testCase{
 			id:          6,
-			description: `Negative case. Not supported format specifed in config`,
+			description: `Negative case. Not supported format specified in config`,
 			input: input{
 				logName:    "test",
 				line:       `02/01/06 03:04:05 PM Jan | This is log message`,
@@ -129,7 +129,7 @@ func Test_processLine(t *testing.T) {
 		},
 		testCase{
 			id:          7,
-			description: `Negative case. Format missmatch - time format is first, but in config specifed that file has second`,
+			description: `Negative case. Format missmatch - time format is first, but in config specified that file has second`,
 			input: input{
 				logName:    "test",
 				line:       `Feb 1, 2018 at 3:04:05pm (UTC) | This is log message`,
