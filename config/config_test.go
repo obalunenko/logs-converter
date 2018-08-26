@@ -13,7 +13,7 @@ import (
 func testConfigCreate(configPath string, logsFilesListJSON string, logLevel string, mongoURL string, mongoDB string, mongoCollection string, dropDB bool) error {
 	fmt.Println("Helper func in action")
 	if err := os.MkdirAll(filepath.Dir(configPath), 0700); err != nil {
-		log.Fatalf("failed creating all dirs for config file %v", filepath.Dir(configPath), err)
+		log.Fatalf("failed creating all dirs for config file [%s]: %v", filepath.Dir(configPath), err)
 
 	}
 
