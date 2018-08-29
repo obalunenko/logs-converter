@@ -19,11 +19,12 @@ on their basis insert MongoDB documents with a monotonous structure.
     ```
 
 3. Update `config.toml` file in the root of repository with actual parameters and save it (see Configuration)
-4. From root of repository run
+4. a) - From root of repository run
 
     ```bash
       go build
     ```
+    b) Download latest artifacts [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://gitlab.com/oleg.balunenko/logs-converter/-/jobs/artifacts/master/download?job=Build+Application)
 
 5. Run tool
 
@@ -42,9 +43,11 @@ Tool could be configured in 3 ways:
 
 ```text
   -dropdb
-        if true - will drop whole collection before starting to store all logs
+        if true - will drop whole collection before starting to store all logs (default true)
   -loglevel
         LogLevel level: All, Debug, Info, Error, Fatal, Panic, Warn (default Debug)
+  -logsfileslist
+         (default map[])
   -logsfileslistjson
         JSON with list of all files that need to be looked at and converted
                                                 example of JSON:
@@ -53,16 +56,17 @@ Tool could be configured in 3 ways:
                                                                 "/dir/log2.log":"second_format",
                                                                 "/dir2/log3.txt":"first_format"
                                                         }
-                                                Common JSON schema:
-                                                      {
-                                                            "log_file_path":"log_format"
-                                                      }
+                                 (default {"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"})
   -mongocollection
         Mongo DB collection (default logs)
   -mongodb
         Mongo DB name (default myDB)
+  -mongopassword
+        MongoDB Password
   -mongourl
         Mongo URL (default localhost:27017)
+  -mongousername
+        MongoDB Username
 ```
 
 ### TOML`config.toml` update following parameters to what you need
@@ -72,6 +76,8 @@ Tool could be configured in 3 ways:
 ***MongoURL** - Mongo URL (default localhost:27017)
 ***MongoDB** - Mongo DB name (default myDB)
 ***MongoCollection** - Mongo DB collection (default logs)
+***MongoUsername** - Mongo DB Username
+***MongoPassword** - Mongo DB password
 ***DropDB** - if true - will drop whole collection before starting to store all logs
 
 example of `config.toml`:
@@ -82,7 +88,9 @@ LogsFilesListJSON='{"testdata/testfile1.log":"second_format","testdata/dir1/test
 MongoURL="localhost:27017"
 MongoDB="myDB"
 MongoCollection="logs"
-DropDB=true
+MongoUsername=""
+MongoPassword=""
+DropDB=false
 ```
 
 ### environment variables
@@ -92,10 +100,13 @@ export following environment variables with your values
 example:
 
 ```bash
-   export KAFKADUMP_DROPDB=false
-   export KAFKADUMP_LOGLEVEL="Info"
-   export KAFKADUMP_LOGSFILESLISTJSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
-   export KAFKADUMP_MONGOCOLLECTION="logs"
-   export KAFKADUMP_MONGODB="myDB"
-   export KAFKADUMP_MONGOURL="localhost:27017"
+
+   export LOGSCONVERTER_DROPDB=false
+   export LOGSCONVERTER_LOGLEVEL="Info"
+   export LOGSCONVERTER_LOGSFILESLISTJSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
+   export LOGSCONVERTER_MONGOCOLLECTION="logs"
+   export LOGSCONVERTER_MONGODB="myDB"
+   export LOGSCONVERTER_MONGOURL="localhost:27017"
+   export LOGSCONVERTER_MONGOUSERNAME=""
+   export LOGSCONVERTER_MONGOPASSWORD=""
 ```
