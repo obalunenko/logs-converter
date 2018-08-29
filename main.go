@@ -20,10 +20,10 @@ func main() {
 		log.Fatalf("Failed to load config: %v \nExiting", errLoadCfg)
 	}
 
-	dbCollection := mongo.Connect(cfg)
+	db := mongo.NewConnection(cfg)
 
 	if cfg.DropDB {
-		mongo.DropDBCollection(dbCollection)
+		db.DropDatabase()
 
 	}
 
@@ -44,7 +44,7 @@ func main() {
 		select {
 		case <-signals:
 			log.Infof("Got UNIX signal, shutting down")
-			mongo.CloseConnection(dbCollection)
+			db.CloseConnection()
 
 			w := new(tabwriter.Writer)
 			w.Init(os.Stdout, 0, 0, 0, ' ', tabwriter.Debug|tabwriter.AlignRight)
@@ -65,13 +65,15 @@ func main() {
 
 			totalRecCnt++
 			log.Debugf("Received model: %+v", data)
-			log.Infof("Current amount of received models to store is: [%d]", totalRecCnt)
-			errStore := mongo.StoreModel(data, dbCollection)
+			log.Infof("Current amount of received models is: [%d]", totalRecCnt)
+			errStore := db.StoreModel(data)
 			if errStore != nil {
 				log.Errorf("Failed to store model...: %v", errStore)
 				failedToStoreCnt++
 			} else {
+				log.Debugf("Successfully stored model [%+v].", data)
 				storedModelsCnt++
+				log.Infof("Current amount of stored models: %d", storedModelsCnt)
 
 			}
 
