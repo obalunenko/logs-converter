@@ -17,9 +17,10 @@ variables:
 # Thus, making a symbolic link corrects this.
 before_script:
   - go version
+  - export GO111MODULE=on
+  - echo ${GO111MODULE}
   - mkdir -p ${GOPATH}/src/${REPO_NAME}
   - mkdir -p ${CI_PROJECT_DIR}/${ARTIFACTS_DIR}
-  - go get -u github.com/golang/dep/cmd/dep/...
   - cp -r ${CI_PROJECT_DIR}/* ${GOPATH}/src/${REPO_NAME}/
   - cd ${GOPATH}/src/${REPO_NAME}
    
@@ -33,6 +34,8 @@ stages:
 Metalinter analysis:
     stage: lint
     script:
+      - go mod vendor
+      - export GO111MODULE=off
       - go get -u github.com/alecthomas/gometalinter/...
       - gometalinter --install
       - go vet -composites=false $(go list ./... | grep -v /vendor/)
@@ -41,7 +44,9 @@ Metalinter analysis:
 Unit Tests:
     stage: test
     script:
+      - export GO111MODULE=off
       - go get -u github.com/axw/gocov/...
+      - export GO111MODULE=on
       - go fmt $(go list ./... | grep -v /vendor/)
       - go test -race -coverpkg=./... -v -coverprofile .testCoverage.out ./...
       - gocov convert .testCoverage.out | gocov report
