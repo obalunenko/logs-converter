@@ -5,7 +5,7 @@ import (
 	"time"
 
 	log "github.com/sirupsen/logrus"
-	"gitlab.com/oleg.balunenko/logs-converter/config"
+	"github.com/oleg-balunenko/logs-converter/config"
 
 	mgo "gopkg.in/mgo.v2"
 )

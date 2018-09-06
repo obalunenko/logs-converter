@@ -6,7 +6,7 @@ git pull
 NEWVERSION=$(git tag | sed 's/\(.*v\)\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)/\2;\3;\4;\1/g' | sort  -t';' -k 1,1n  -k 2,2n -k 3,3n | tail -n 1  | awk -F';' '{printf "%s%d.%d.%d", $4, $1,$2,($3 + 1) }')
 
 if [ "${NEWVERSION}" = "" ]; then
-   NEWVERSION="prod/v1.0.0"
+   NEWVERSION="v1.0.0"
 fi
 
 echo ${NEWVERSION}

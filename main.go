@@ -7,10 +7,10 @@ import (
 	"syscall"
 	"text/tabwriter"
 
+	"github.com/oleg-balunenko/logs-converter/config"
+	"github.com/oleg-balunenko/logs-converter/converter"
+	"github.com/oleg-balunenko/logs-converter/mongo"
 	log "github.com/sirupsen/logrus"
-	"gitlab.com/oleg.balunenko/logs-converter/config"
-	"gitlab.com/oleg.balunenko/logs-converter/converter"
-	"gitlab.com/oleg.balunenko/logs-converter/mongo"
 )
 
 func main() {
