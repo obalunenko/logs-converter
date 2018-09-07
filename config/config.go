@@ -54,7 +54,7 @@ func LoadConfig(configPath string) (*Config, error) {
 
 	log.Infof("Loading configuration\n")
 
-	m := newConfig(configPath, "KafkaDump", false)
+	m := newConfig(configPath, "LogsConverter", true)
 
 	err := m.Load(svcConfig)
 	if err != nil {

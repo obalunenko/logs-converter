@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/oleg-balunenko/logs-converter/config"
+	log "github.com/sirupsen/logrus"
 
 	mgo "gopkg.in/mgo.v2"
 )
