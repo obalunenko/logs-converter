@@ -17,12 +17,11 @@ jobs:
       #- linux
       - osx
     script: 
+      - env GO111MODULE=off
       - echo "Run unit tests..."
       - go get golang.org/x/tools/cmd/cover/...
-      - go get
       - go get github.com/mattn/goveralls/...
-      - env GO111MODULE=on go build
-      - env GO111MODULE=on go test -v -race -coverpkg=./... -covermode=count -coverprofile=coverage.out ./...
+      - env GO111MODULE=on go test -v -race -coverpkg=./... -covermode=atomic -coverprofile=coverage.out ./...
       - "$HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN"
   - stage: Metalinter analysis
     go:
