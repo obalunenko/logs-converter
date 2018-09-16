@@ -1,60 +1,69 @@
 language: go
-
 dist: trusty
 sudo: false
 install: true
-
 env:
   global:
+  - MYAPP=logs-converter
+  - MYEMAIL=oleg.balunenko@gmail.com
   - secure: MRZFXkbbzckI3jl3sP3zkjt6Ezy6pX7vAthXKzF8pIvysXCzDm5Z7AlISWTk7PCcErH2OdndsGmUI6WvPJjm/TZxFCyRgkbzfxGbmFi6Z2b/Ib5fj2SEgdLUeKnofi7oRx27kzEG4wlCxbOspUedFL5naORvGUkYeGVtIs7xhhQHmJnEIBfe1Z4KGUmCmKjp1RP0uutSHAsmB4umK8CtYFbchfohUd9OGCPQo5ioanZyhDCv1DnZh4b3oWYf08oyTojEM3IrpmwKW6HY9Pywq2vkGo1IcpnoEqB+b+RtGrzdgrXP7rPY9I7V8Y6UpoD5zDWRCGpXJTdq6eVuo0eA5u74XKiWoSkffw9cOSqBxNDTk9SinuqXck+ybr/TWqoqSmdcvC//VEFrXmggqJtdRLXOSv8g+kZcHmUAJtVoeqx0n5hQcMj0Nof85greMKkSwXJ9ccHDL4sZjtFsR7aKcJv0Euo+6ib/kNiQkAbfWA93iDLxUIb0enzPPn/AK+fcGH0GA7epF8RHGm7xKmlv+OhbPQi6Pnh7JTJ/ATYJLenYYOs+Ucx/ygXL5lca6UF+YqFarIDrk3qZGrzkDzItjL8X3BgLyC7NTODsEFJSvZg27EGXy0IaZ6dBFrD10h/ESzzwrQ1Y3D2E8jpMToHqSpw23URbdOXrm4d8BY7c7ac=
-  - secure: dQxkdBQnxPV+mCpg2cEG4axoXWS3nTZKsFTV4xvfebUUF1cr9dXHmAbHm6UEGkfjMv+YcaoID6mT4/3Frf6s5XjuMcljDUJ6QB8QkG3hPXR2UtsWTpDJx2poizid7cFF/siKX4Kz8NWx7HWfpTezDji/KgrLnMX4Zfi3iPisCNWTHcFDITLdkmaeGRvpNJwuaT3gSzJpZEx0mk+ccPnK5DndtT5Sz8Td5cUfeot1L0MBOkzzreeKfgIdg1lz18Jz4zaonXi2MHavI1DF6KIgqxwokkhN1KXh51jnTC7Pz2dGHVFGb4Z//VoCqvGbNFsYeTzDE/en0Uaq70j8ihkrsrbhOxiEP9kMGNeMJWAuvJ4bAhVN/1m18qEr9B7uytgZCJTOX9t8rB1r3lkjoZty6K/v+VJZFAAXMw6eg8dDXBXYq0JAx9duybJ4GdrAsDJThb+iUq+i3OukNodqkWgYnuK3ahkw+w+BqR5aibfwXRlxJAlRB35jDAFIBQouQozSfDd0mIkgtbKBpxynv6psFwxTxHLaTm/tsfTM/ZFva7/WiXLo2pAIiSoKSpONfh2ind+dyAnXoL+oA9hrZPzypxFQeRMuTycEP3B1XcoF6v8OKOUoR6AGTwuWo9t7DJpmrb1HrMfpOyG6xgD8yjY2g2/0illdOaH92XH81E5EyT8= # encrypted value of your token
+  - secure: dQxkdBQnxPV+mCpg2cEG4axoXWS3nTZKsFTV4xvfebUUF1cr9dXHmAbHm6UEGkfjMv+YcaoID6mT4/3Frf6s5XjuMcljDUJ6QB8QkG3hPXR2UtsWTpDJx2poizid7cFF/siKX4Kz8NWx7HWfpTezDji/KgrLnMX4Zfi3iPisCNWTHcFDITLdkmaeGRvpNJwuaT3gSzJpZEx0mk+ccPnK5DndtT5Sz8Td5cUfeot1L0MBOkzzreeKfgIdg1lz18Jz4zaonXi2MHavI1DF6KIgqxwokkhN1KXh51jnTC7Pz2dGHVFGb4Z//VoCqvGbNFsYeTzDE/en0Uaq70j8ihkrsrbhOxiEP9kMGNeMJWAuvJ4bAhVN/1m18qEr9B7uytgZCJTOX9t8rB1r3lkjoZty6K/v+VJZFAAXMw6eg8dDXBXYq0JAx9duybJ4GdrAsDJThb+iUq+i3OukNodqkWgYnuK3ahkw+w+BqR5aibfwXRlxJAlRB35jDAFIBQouQozSfDd0mIkgtbKBpxynv6psFwxTxHLaTm/tsfTM/ZFva7/WiXLo2pAIiSoKSpONfh2ind+dyAnXoL+oA9hrZPzypxFQeRMuTycEP3B1XcoF6v8OKOUoR6AGTwuWo9t7DJpmrb1HrMfpOyG6xgD8yjY2g2/0illdOaH92XH81E5EyT8=
+  - secure: smbU6AellcrbY9wVyI79mB+VkuAkSASKqJsJMjFIvxaK9g5XDe2IH8SjnnWsr2NVtoNfiETGarm8K/baz8Am36J6wfS2JYd6uWaI8sGS/9L/r4NJ8dph+mzXKg7LnVMl8aG7npZ3bVORF9lm+rgTcFtiQ1fZCFL2Qt8svtBKvzaYLKkXpiZPtFQh9G5JsFXboZeDR5nyMkBq0DfhuD8WVPIcT4RLad/RhJKlYkKEOpL+Y/5le4YaiW4bLqMi4fyVqeLv/dzEZVUAQR63eZzapXCM/aQIs2z0+ZfS1upReU4o1CEsVz/df9fhbKli2avOnf4E54P0EL87t0OYNHIMJjgTRj2nPukH8VPXrj2cGZtEPcMUwkhz9Z7eYUNeGwfyELxjAfeIM7y63fhwNQRfKU0LNMfBHKnGnvfT4WzEIdAJRdKrPcqLvyV7CVXKHkh/nh31Qf9Tkydm5upcJX0wRrJBR+rDgarAE0azHAYRwBnmgYbIWQ8IoG4ky0AZFxSsvCXKXbgWwh4LvcSfienlGY+JN9Q9sGrlDH9wunDxLhP8fhlMRgQhSZfiffcjtibHAJkq8LG4kjdTZSTagIUi4LauiXrJ7bhcDERXbDSQeVK6Yb7oZuU693TEgGRUK7HFCI8bxRk9b7t4/5Eu+RmbGp6Na2CsFTGwWcr7C+37j+Y=
 jobs:
   include:
   - stage: Unit Tests
     go:
-      #- 1.10.x
-      - 1.11.x
+    - 1.11.x
     os:
-      #- linux
-      - osx
-    script: 
-      - env GO111MODULE=off
-      - echo "Run unit tests..."
-      - go get golang.org/x/tools/cmd/cover/...
-      - go get github.com/mattn/goveralls/...
-      - env GO111MODULE=on go test -v -race -coverpkg=./... -covermode=atomic -coverprofile=coverage.out ./...
-      - "$HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN"
+    - osx
+    script:
+    - env GO111MODULE=off
+    - echo "Run unit tests..."
+    - go get golang.org/x/tools/cmd/cover/...
+    - go get github.com/mattn/goveralls/...
+    - env GO111MODULE=on go test -v -race -coverpkg=./... -covermode=atomic -coverprofile=coverage.out
+      ./...
+    - "$HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken
+      $COVERALLS_TOKEN"
   - stage: Metalinter analysis
     go:
-      #- 1.10.x
-      - 1.11.x
+    - 1.11.x
     os:
-      #- linux
-      - osx
+    - osx
     script:
-      - env GO111MODULE=off
-      - go get -u github.com/alecthomas/gometalinter/...
-      - gometalinter --install
-      - go vet -composites=false $(go list ./... | grep -v /vendor/)
-      - gometalinter --vendor --disable=gotype --linter='errcheck:errcheck -blank . :PATH:LINE:COL:MESSAGE'
+    - env GO111MODULE=off
+    - go get -u github.com/alecthomas/gometalinter/...
+    - gometalinter --install
+    - go vet -composites=false $(go list ./... | grep -v /vendor/)
+    - gometalinter --vendor --disable=gotype --linter='errcheck:errcheck -blank .
+      :PATH:LINE:COL:MESSAGE'
   - stage: Sonar Scanner
     addons:
       sonarcloud:
-        organization: "oleg-balunenko-github" # the key of the org you chose at step #3
-        token: $SONAR_TOKEN
-          
-    script: 
-      - sonar-scanner
-
+        organization: oleg-balunenko-github
+        token: "$SONAR_TOKEN"
+    script:
+    - sonar-scanner
   - stage: Build Application
-    script: 
-      - echo "Build stage"
+    go:
+    - 1.11.x
+    os:
+    - osx
+    script:
+    - echo "Build stage"
+    - mkdir -p build/{386,amd64}
+    - GOARCH=386 go build --ldflags "-X main.version=${TRAVIS_TAG} -X main.build=${TRAVIS_BUILD_NUMBER} -X main.commit=${TRAVIS_COMMIT}" -o build/386/${MYAPP}-386 *.go
+    - GOARCH=amd64 go build --ldflags "-X main.version=${TRAVIS_TAG} -X main.build=${TRAVIS_BUILD_NUMBER} -X main.commit=${TRAVIS_COMMIT}" -o build/amd64/${MYAPP}-amd64 *.go
   - stage: GitHub Release
-    script: 
-      - echo "Deploying to GitHub releases ..."
-    #deploy:
-    #  provider: releases
-    #  api_key: "$GITHUB_OAUTH_TOKEN"
-    #  skip_cleanup: true
-    #  on:
-    #    tags: true
+    deploy:
+      provider: releases
+      email: ${MYEMAIL}
+      api_key:
+        secure: ${GH_TOKEN}
+      file:
+        - build/386/${MYAPP}-386
+        - build/amd64/${MYAPP}-amd64
+      skip_cleanup: true
+      on:
+        tags: true
+        all_branches: true
