@@ -4,7 +4,7 @@
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/oleg-balunenko/logs-converter)](https://goreportcard.com/report/github.com/oleg-balunenko/logs-converter)
 
-[![coverage report](https://gitlab.com/oleg.balunenko/logs-converter/badges/master/coverage.svg)](https://gitlab.com/oleg.balunenko/logs-converter/commits/master)
+[![Coverage Status](https://coveralls.io/repos/github/oleg-balunenko/logs-converter/badge.svg?branch=master)](https://coveralls.io/github/oleg-balunenko/logs-converter?branch=master)
 
 The converter will parse files with different log formats and according
 on their basis insert MongoDB documents with a monotonous structure.
