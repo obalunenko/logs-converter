@@ -1,6 +1,5 @@
 <p align="center">
-    <a href="https://travis-ci.org/oleg-balunenko/logs-converter"><img src=https://travis-ci.org/oleg-balunenko/logs-   converter.svg?branch=master"alt="Build Status"></img></a>
-
+    <a href="https://travis-ci.org/oleg-balunenko/logs-converter"><img src=https://travis-ci.org/oleg-balunenko/logs-converter.svg?branch=master" alt="Build Status"></img></a>
     <a href="https://goreportcard.com/report/github.com/oleg-balunenko/logs-converter"><img src="https://goreportcard.com/badge/github.com/oleg-balunenko/logs-converter" alt="Go Report Card"></img></a>
    <a href="https://coveralls.io/github/oleg-balunenko/logs-converter?branch=master"><img src="https://coveralls.io/repos/github/oleg-balunenko/logs-converter/badge.svg?branch=master" alt="Coverage Status"></img></a>
    <a href="https://sonarcloud.io/dashboard?id=logs-converter"><img src="https://sonarcloud.io/api/project_badges/measure?project=logs-converter&metric=alert_status" alt="Quality Gate Status"></img></a>
