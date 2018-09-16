@@ -13,7 +13,15 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+var (
+	version string
+	build   string
+	commit  string
+)
+
 func main() {
+	fmt.Printf("Version info: %s:%s", version, build)
+	fmt.Printf("commit: %s ", commit)
 
 	cfg, errLoadCfg := config.LoadConfig("config.toml")
 	if errLoadCfg != nil {
