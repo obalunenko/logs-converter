@@ -55,15 +55,44 @@ jobs:
     - GOARCH=386 go build --ldflags "-X main.version=${TRAVIS_TAG} -X main.build=${TRAVIS_BUILD_NUMBER} -X main.commit=${TRAVIS_COMMIT}" -o build/386/${MYAPP}-386 *.go
     - GOARCH=amd64 go build --ldflags "-X main.version=${TRAVIS_TAG} -X main.build=${TRAVIS_BUILD_NUMBER} -X main.commit=${TRAVIS_COMMIT}" -o build/amd64/${MYAPP}-amd64 *.go
   - stage: GitHub Release
+    go: 
+      - 1.11.x
+    os:
+    - osx
+    go_import_path: github.com/oleg-balunenko/logs-converter
+    install: skip
+    script: skip
+    before_deploy:
+      - ./scripts/run-build.sh
     deploy:
-      provider: releases
-      email: ${MYEMAIL}
-      api_key:
-        secure: ${GH_TOKEN}
-      file:
-        - build/386/${MYAPP}-386
-        - build/amd64/${MYAPP}-amd64
-      skip_cleanup: true
-      on:
-        tags: true
-        all_branches: true
+      - provider: releases
+        api_key:
+          secure: ${GH_TOKEN}
+        file:
+          - release/${MYAPP}-linux-amd64
+          - release/${MYAPP}-linux-amd64.sha256
+          - release/${MYAPP}-darwin-amd64
+          - release/${MYAPP}-darwin-amd64.sha256
+          - release/${MYAPP}-freebsd-amd64
+          - release/${MYAPP}-freebsd-amd64.sha256
+          - release/${MYAPP}-windows-amd64.exe
+          - release/${MYAPP}-windows-amd64.exe.sha256
+          - release/${MYAPP}-linux-386
+          - release/${MYAPP}-linux-386.sha256
+          - release/${MYAPP}-darwin-386
+          - release/${MYAPP}-darwin-386.sha256
+          - release/${MYAPP}-freebsd-386
+          - release/${MYAPP}-freebsd-386.sha256
+          - release/${MYAPP}-windows-386.exe
+          - release/${MYAPP}-windows-386.exe.sha256
+          - release/${MYAPP}-linux-ppc64
+          - release/${MYAPP}-linux-ppc64.sha256
+          - release/${MYAPP}-linux-ppc64le
+          - release/${MYAPP}-linux-ppc64le.sha256
+        skip_cleanup: true
+        on:
+          repo: oleg-balunenko/logs-converter
+          branch: master
+          tags: true
+addons:
+  ssh_known_hosts: github.com
