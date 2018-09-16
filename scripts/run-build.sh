@@ -19,11 +19,11 @@ GO_BUILD_CMD="go build -a -installsuffix cgo"
 GO_BUILD_LDFLAGS="-s -w -X main.commitHash=${COMMIT_HASH} -X main.buildDate=${DATE} -X main.version=${VERSION} -X main.flagImportDuringSolve=${IMPORT_DURING_SOLVE}"
 
 if [[ -z "${BUILD_PLATFORMS}" ]]; then
-    BUILD_PLATFORMS="linux windows darwin freebsd"
+  BUILD_PLATFORMS="linux windows darwin freebsd"
 fi
 
 if [[ -z "${BUILD_ARCHS}" ]]; then
-    BUILD_ARCHS="amd64 386 ppc64 ppc64le"
+  BUILD_ARCHS="amd64 386 ppc64 ppc64le"
 fi
 
 mkdir -p "${REPO_ROOT}/release"
@@ -35,21 +35,22 @@ for OS in ${BUILD_PLATFORMS[@]}; do
       NAME="${NAME}.exe"
     fi
 
-   
+
     if [[ "${OS}" == "darwin" && "${BUILD_PLATFORM}" == "darwin" ]]; then
       CGO_ENABLED=1
     else
       CGO_ENABLED=0
     fi
     if [[ "${ARCH}" == "ppc64" || "${ARCH}" == "ppc64le" ]] && [[ "${OS}" != "linux" ]]; then
-        # ppc64 and ppc64le are only supported on Linux.
-        echo "Building for ${OS}/${ARCH} not supported."
+      # ppc64 and ppc64le are only supported on Linux.
+      echo "Building for ${OS}/${ARCH} not supported."
     else
-        echo "Building for ${OS}/${ARCH} with CGO_ENABLED=${CGO_ENABLED}"
-        GOARCH=${ARCH} GOOS=${OS} CGO_ENABLED=${CGO_ENABLED} ${GO_BUILD_CMD} -ldflags "${GO_BUILD_LDFLAGS}"\
+      echo "Building for ${OS}/${ARCH} with CGO_ENABLED=${CGO_ENABLED}"
+      GOARCH=${ARCH} GOOS=${OS} CGO_ENABLED=${CGO_ENABLED} ${GO_BUILD_CMD} -ldflags "${GO_BUILD_LDFLAGS}"\
             -o "${REPO_ROOT}/release/${NAME}"
-        pushd "${REPO_ROOT}/release" > /dev/null
-        shasum -a 256 "${NAME}" > "${NAME}.sha256"
-        popd > /dev/null
+      pushd "${REPO_ROOT}/release" > /dev/null
+      shasum -a 256 "${NAME}" > "${NAME}.sha256"
+      popd > /dev/null
     fi
   done
+done
