@@ -21,3 +21,5 @@
 config\.toml
 
 \.scannerwork/
+
+\release/

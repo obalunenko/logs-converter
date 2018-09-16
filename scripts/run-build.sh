@@ -19,11 +19,11 @@ GO_BUILD_CMD="go build -a -installsuffix cgo"
 GO_BUILD_LDFLAGS="-s -w -X main.commitHash=${COMMIT_HASH} -X main.buildDate=${DATE} -X main.version=${VERSION} -X main.flagImportDuringSolve=${IMPORT_DURING_SOLVE}"
 
 if [[ -z "${BUILD_PLATFORMS}" ]]; then
-  BUILD_PLATFORMS="linux windows darwin freebsd"
+  BUILD_PLATFORMS="linux windows darwin"
 fi
 
 if [[ -z "${BUILD_ARCHS}" ]]; then
-  BUILD_ARCHS="amd64 386 ppc64 ppc64le"
+  BUILD_ARCHS="amd64"
 fi
 
 mkdir -p "${REPO_ROOT}/release"
