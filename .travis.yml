@@ -2,21 +2,52 @@ language: go
 go:
 - 1.10.x
 - 1.11.x
-
 os:
 - linux
 - osx
 dist: trusty
 sudo: false
 install: true
-script:
-- go get golang.org/x/tools/cmd/cover/...
-- go get github.com/mattn/goveralls/...
-- env GO111MODULE=on go build
-- env GO111MODULE=on go test -v -covermode=count -coverprofile=coverage.out ./...
-- "$HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken
-  $COVERALLS_TOKEN"
-  
+
 env:
   global:
-    secure: MRZFXkbbzckI3jl3sP3zkjt6Ezy6pX7vAthXKzF8pIvysXCzDm5Z7AlISWTk7PCcErH2OdndsGmUI6WvPJjm/TZxFCyRgkbzfxGbmFi6Z2b/Ib5fj2SEgdLUeKnofi7oRx27kzEG4wlCxbOspUedFL5naORvGUkYeGVtIs7xhhQHmJnEIBfe1Z4KGUmCmKjp1RP0uutSHAsmB4umK8CtYFbchfohUd9OGCPQo5ioanZyhDCv1DnZh4b3oWYf08oyTojEM3IrpmwKW6HY9Pywq2vkGo1IcpnoEqB+b+RtGrzdgrXP7rPY9I7V8Y6UpoD5zDWRCGpXJTdq6eVuo0eA5u74XKiWoSkffw9cOSqBxNDTk9SinuqXck+ybr/TWqoqSmdcvC//VEFrXmggqJtdRLXOSv8g+kZcHmUAJtVoeqx0n5hQcMj0Nof85greMKkSwXJ9ccHDL4sZjtFsR7aKcJv0Euo+6ib/kNiQkAbfWA93iDLxUIb0enzPPn/AK+fcGH0GA7epF8RHGm7xKmlv+OhbPQi6Pnh7JTJ/ATYJLenYYOs+Ucx/ygXL5lca6UF+YqFarIDrk3qZGrzkDzItjL8X3BgLyC7NTODsEFJSvZg27EGXy0IaZ6dBFrD10h/ESzzwrQ1Y3D2E8jpMToHqSpw23URbdOXrm4d8BY7c7ac=
+  - secure: MRZFXkbbzckI3jl3sP3zkjt6Ezy6pX7vAthXKzF8pIvysXCzDm5Z7AlISWTk7PCcErH2OdndsGmUI6WvPJjm/TZxFCyRgkbzfxGbmFi6Z2b/Ib5fj2SEgdLUeKnofi7oRx27kzEG4wlCxbOspUedFL5naORvGUkYeGVtIs7xhhQHmJnEIBfe1Z4KGUmCmKjp1RP0uutSHAsmB4umK8CtYFbchfohUd9OGCPQo5ioanZyhDCv1DnZh4b3oWYf08oyTojEM3IrpmwKW6HY9Pywq2vkGo1IcpnoEqB+b+RtGrzdgrXP7rPY9I7V8Y6UpoD5zDWRCGpXJTdq6eVuo0eA5u74XKiWoSkffw9cOSqBxNDTk9SinuqXck+ybr/TWqoqSmdcvC//VEFrXmggqJtdRLXOSv8g+kZcHmUAJtVoeqx0n5hQcMj0Nof85greMKkSwXJ9ccHDL4sZjtFsR7aKcJv0Euo+6ib/kNiQkAbfWA93iDLxUIb0enzPPn/AK+fcGH0GA7epF8RHGm7xKmlv+OhbPQi6Pnh7JTJ/ATYJLenYYOs+Ucx/ygXL5lca6UF+YqFarIDrk3qZGrzkDzItjL8X3BgLyC7NTODsEFJSvZg27EGXy0IaZ6dBFrD10h/ESzzwrQ1Y3D2E8jpMToHqSpw23URbdOXrm4d8BY7c7ac=
+jobs:
+  include:
+  - stage: Unit Tests
+    script: 
+      - echo "Run unit tests..."
+      - go get golang.org/x/tools/cmd/cover/...
+      - go get
+      - go get github.com/mattn/goveralls/...
+      - env GO111MODULE=on go build
+      - env GO111MODULE=on go test -v -race -coverpkg=./... -coverprofile -covermode=count -coverprofile=coverage.out ./...
+      - "$HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN"
+  - stage: Metalinter analysis
+    script:
+      - env GO111MODULE=off
+      - go get -u github.com/alecthomas/gometalinter/...
+      - gometalinter --install
+      - go vet -composites=false $(go list ./... | grep -v /vendor/)
+      - gometalinter --vendor --disable=gotype --linter='errcheck:errcheck -blank . :PATH:LINE:COL:MESSAGE'
+  - stage: Sonar Scanner
+    addons:
+      sonarcloud:
+        organization: "oleg-balunenko-github" # the key of the org you chose at step #3
+        token:
+          secure: dQxkdBQnxPV+mCpg2cEG4axoXWS3nTZKsFTV4xvfebUUF1cr9dXHmAbHm6UEGkfjMv+YcaoID6mT4/3Frf6s5XjuMcljDUJ6QB8QkG3hPXR2UtsWTpDJx2poizid7cFF/siKX4Kz8NWx7HWfpTezDji/KgrLnMX4Zfi3iPisCNWTHcFDITLdkmaeGRvpNJwuaT3gSzJpZEx0mk+ccPnK5DndtT5Sz8Td5cUfeot1L0MBOkzzreeKfgIdg1lz18Jz4zaonXi2MHavI1DF6KIgqxwokkhN1KXh51jnTC7Pz2dGHVFGb4Z//VoCqvGbNFsYeTzDE/en0Uaq70j8ihkrsrbhOxiEP9kMGNeMJWAuvJ4bAhVN/1m18qEr9B7uytgZCJTOX9t8rB1r3lkjoZty6K/v+VJZFAAXMw6eg8dDXBXYq0JAx9duybJ4GdrAsDJThb+iUq+i3OukNodqkWgYnuK3ahkw+w+BqR5aibfwXRlxJAlRB35jDAFIBQouQozSfDd0mIkgtbKBpxynv6psFwxTxHLaTm/tsfTM/ZFva7/WiXLo2pAIiSoKSpONfh2ind+dyAnXoL+oA9hrZPzypxFQeRMuTycEP3B1XcoF6v8OKOUoR6AGTwuWo9t7DJpmrb1HrMfpOyG6xgD8yjY2g2/0illdOaH92XH81E5EyT8= # encrypted value of your token
+    script: 
+      - sonar-scanner   
+
+  - stage: Build Application
+    script: 
+      - echo "Build stage"
+  - stage: GitHub Release
+    script: 
+      - echo "Deploying to GitHub releases ..."
+    #deploy:
+    #  provider: releases
+    #  api_key: "$GITHUB_OAUTH_TOKEN"
+    #  skip_cleanup: true
+    #  on:
+    #    tags: true
