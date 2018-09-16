@@ -1,6 +1,10 @@
 language: go
 go: 
  - "1.10.x"
+ script: 
+  - go mod vendor
+  - go test -v -mod=vendor ./...
+
  - "1.11.x"
 
 env:
