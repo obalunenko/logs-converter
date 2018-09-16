@@ -1,8 +1,8 @@
 # logs-converter
 
-[![pipeline status](https://gitlab.com/oleg.balunenko/logs-converter/badges/master/pipeline.svg)](https://gitlab.com/oleg.balunenko/logs-converter/commits/master)
+[![Build Status](https://travis-ci.org/oleg-balunenko/logs-converter.svg?branch=master)](https://travis-ci.org/oleg-balunenko/logs-converter)
 
-[![Go Report Card](https://goreportcard.com/badge/gitlab.com/oleg.balunenko/logs-converter)](https://goreportcard.com/report/gitlab.com/oleg.balunenko/logs-converter)
+[![Go Report Card](https://goreportcard.com/badge/github.com/oleg-balunenko/logs-converter)](https://goreportcard.com/report/github.com/oleg-balunenko/logs-converter)
 
 [![coverage report](https://gitlab.com/oleg.balunenko/logs-converter/badges/master/coverage.svg)](https://gitlab.com/oleg.balunenko/logs-converter/commits/master)
 
