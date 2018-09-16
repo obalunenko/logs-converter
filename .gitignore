@@ -19,3 +19,5 @@
 #testdata/
 
 config\.toml
+
+\.scannerwork/
