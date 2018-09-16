@@ -1,10 +1,5 @@
 language: go
-go:
-- 1.10.x
-- 1.11.x
-os:
-- linux
-- osx
+
 dist: trusty
 sudo: false
 install: true
@@ -15,15 +10,27 @@ env:
 jobs:
   include:
   - stage: Unit Tests
+    go:
+      #- 1.10.x
+      - 1.11.x
+    os:
+      #- linux
+      - osx
     script: 
       - echo "Run unit tests..."
       - go get golang.org/x/tools/cmd/cover/...
       - go get
       - go get github.com/mattn/goveralls/...
       - env GO111MODULE=on go build
-      - env GO111MODULE=on go test -v -race -coverpkg=./... -coverprofile -covermode=count -coverprofile=coverage.out ./...
+      - env GO111MODULE=on go test -v -race -coverpkg=./... -covermode=count -coverprofile=coverage.out ./...
       - "$HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN"
   - stage: Metalinter analysis
+    go:
+      #- 1.10.x
+      - 1.11.x
+    os:
+      #- linux
+      - osx
     script:
       - env GO111MODULE=off
       - go get -u github.com/alecthomas/gometalinter/...
