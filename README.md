@@ -25,7 +25,7 @@ on their basis insert MongoDB documents with a monotonous structure.
     ```bash
       go build
     ```
-    b) Download latest artifacts [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://gitlab.com/oleg.balunenko/logs-converter/-/jobs/artifacts/master/download?job=Build+Application)
+    b) Download latest artifacts [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
 
 5. Run tool
 
