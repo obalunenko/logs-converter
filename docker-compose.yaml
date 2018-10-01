@@ -1,0 +1,7 @@
+version: '3.3'
+services:
+  mongo:
+    image: 'mongo:latest'
+    container_name: 'mongo'
+    ports:
+      - '127.0.0.1:27100:27017'
