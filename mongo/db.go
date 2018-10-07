@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/oleg-balunenko/logs-converter/config"
 	log "github.com/sirupsen/logrus"
 
 	mgo "gopkg.in/mgo.v2"
@@ -18,14 +17,14 @@ type DB struct {
 }
 
 // NewConnection establishes connection with mongoDB and return MongoDB object
-func NewConnection(cfg *config.Config) *DB {
+func NewConnection(url, dbName, collectionName, username, password string) *DB {
 
 	mongoDBDialInfo := &mgo.DialInfo{
-		Addrs:    []string{cfg.MongoURL},
+		Addrs:    []string{url},
 		Timeout:  60 * time.Second,
-		Database: cfg.MongoDB,
-		Username: cfg.MongoUsername,
-		Password: cfg.MongoPassword,
+		Database: dbName,
+		Username: username,
+		Password: password,
 	}
 
 	session, errDial := mgo.DialWithInfo(mongoDBDialInfo)
@@ -33,8 +32,8 @@ func NewConnection(cfg *config.Config) *DB {
 		log.Fatalf("Could not leave without Mongo: %v\nExiting...", errDial)
 
 	}
-	database := session.DB(cfg.MongoDB)
-	collection := database.C(cfg.MongoCollection)
+	database := session.DB(dbName)
+	collection := database.C(collectionName)
 
 	return &DB{
 		session:    session,

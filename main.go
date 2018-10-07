@@ -28,7 +28,7 @@ func main() {
 		log.Fatalf("Failed to load config: %v \nExiting", errLoadCfg)
 	}
 
-	db := mongo.NewConnection(cfg)
+	db := mongo.NewConnection(cfg.MongoURL, cfg.MongoDB, cfg.MongoCollection, cfg.MongoUsername, cfg.MongoPassword)
 
 	if cfg.DropDB {
 		db.DropDatabase()
