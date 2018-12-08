@@ -3,21 +3,32 @@ package converter
 import (
 	"fmt"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/hpcloud/tail"
+	logModel "github.com/oleg-balunenko/logs-converter/model"
+	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 )
 
 // Start starts converting of logfile
-func Start(logName string, format string, resultChan chan *LogModel) {
+func Start(logName string, format string, mustExist bool, follow bool, resultChan chan *logModel.LogModel,
+	errorsChan chan error, wg *sync.WaitGroup) {
+
 	log.Infof("Starting tailing and converting file [%s] with logs format [%s]", logName, format)
 
+	defer wg.Done()
+
 	t, err := tail.TailFile(logName, tail.Config{
-		Follow: true,
+		Follow:    follow,
+		MustExist: mustExist,
 	})
 	if err != nil {
-		log.Fatalf("failed to tail file [%s]: %v", logName, err)
+		msg := fmt.Sprintf("failed to tail file [%s]", logName)
+		errorsChan <- errors.Wrap(err, msg)
+
+		return
 	}
 
 	var cnt uint64
@@ -26,7 +37,7 @@ func Start(logName string, format string, resultChan chan *LogModel) {
 		log.Debugf("File:[%s] Line tailed: [%v]", logName, line)
 		model, err := processLine(logName, line.Text, format, cnt)
 		if err != nil {
-			log.Errorf("Failed to process line [%s]: %v", line.Text, err)
+			errorsChan <- errors.Wrap(err, fmt.Sprintf("Failed to process line [%s]", line.Text))
 		}
 
 		log.Debugf("Go routine for file [%s] sending model to chanel", logName)
@@ -37,7 +48,7 @@ func Start(logName string, format string, resultChan chan *LogModel) {
 
 }
 
-func processLine(logName string, line string, format string, lineNumber uint64) (model *LogModel, err error) {
+func processLine(logName string, line string, format string, lineNumber uint64) (model *logModel.LogModel, err error) {
 
 	lineElements := strings.Split(line, " | ")
 
@@ -58,7 +69,7 @@ func processLine(logName string, line string, format string, lineNumber uint64) 
 		msg = lineElements[1]
 	}
 
-	model = &LogModel{
+	model = &logModel.LogModel{
 		LogTime:   logTime,
 		LogMsg:    msg,
 		FileName:  logName,
