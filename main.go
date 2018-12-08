@@ -57,7 +57,6 @@ func main() {
 	}()
 
 	var storedModelsCnt, failedToStoreCnt, totalRecCnt uint64
-	defer executionSummary(totalRecCnt, storedModelsCnt, failedToStoreCnt)
 
 	for {
 
@@ -65,8 +64,8 @@ func main() {
 		case <-signals:
 			log.Infof("Got UNIX signal, shutting down")
 			dbc.Close()
-
 			close(resChan)
+			executionSummary(totalRecCnt, storedModelsCnt, failedToStoreCnt)
 			return
 
 		case data := <-resChan:
@@ -92,7 +91,7 @@ func main() {
 			log.Printf("stop received")
 			close(resChan)
 			dbc.Close()
-
+			executionSummary(totalRecCnt, storedModelsCnt, failedToStoreCnt)
 			return
 
 		}
