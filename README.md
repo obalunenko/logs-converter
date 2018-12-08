@@ -76,24 +76,28 @@ Tool could be configured in 3 ways:
 
 ***LogLevel** - stdout log level: All, Debug, Info, Error, Fatal, Panic, Warn (default Debug)
 ***LogsFilesListJSON** - JSON with list of all files that need to be looked at and converted
-***MongoURL** - Mongo URL (default localhost:27017)
-***MongoDB** - Mongo DB name (default myDB)
+***DBURL** - DB URL (default localhost:27017)
+***DBName** - DB name (default myDB)
 ***MongoCollection** - Mongo DB collection (default logs)
-***MongoUsername** - Mongo DB Username
-***MongoPassword** - Mongo DB password
+***DBUsername** - Mongo DB Username
+***DBPassword** - Mongo DB password
 ***DropDB** - if true - will drop whole collection before starting to store all logs
+***FilesMustExist*** - if true - will throw error when file is not exist; when false - wait for file create
+***FollowFiles*** - if true - will tail file and wait for updates; when false - end file reading after EOF
 
 example of `config.toml`:
 
 ```toml
 LogLevel="Debug"
 LogsFilesListJSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
-MongoURL="localhost:27017"
-MongoDB="myDB"
+DBURL="localhost:27017"
+DBName="myDB"
 MongoCollection="logs"
-MongoUsername=""
-MongoPassword=""
-DropDB=false
+DBUsername=""
+DBPassword=""
+DropDB=true
+FilesMustExist=true
+FollowFiles=true
 ```
 
 ### environment variables
@@ -104,12 +108,15 @@ example:
 
 ```bash
 
-   export LOGSCONVERTER_DROPDB=false
-   export LOGSCONVERTER_LOGLEVEL="Info"
-   export LOGSCONVERTER_LOGSFILESLISTJSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
-   export LOGSCONVERTER_MONGOCOLLECTION="logs"
-   export LOGSCONVERTER_MONGODB="myDB"
-   export LOGSCONVERTER_MONGOURL="localhost:27017"
-   export LOGSCONVERTER_MONGOUSERNAME=""
-   export LOGSCONVERTER_MONGOPASSWORD=""
+	export LOGSCONVERTER_DB_NAME="myDB"
+	export LOGSCONVERTER_DB_PASSWORD=""
+    export LOGSCONVERTER_DBURL="localhost:27017"
+    export LOGSCONVERTER_DB_USERNAME=""
+    export LOGSCONVERTER_DROP_DB=false
+    export LOGSCONVERTER_FILES_MUST_EXIST=false
+    export LOGSCONVERTER_FOLLOW_FILES=true
+    export LOGSCONVERTER_LOG_LEVEL="Info"
+    export LOGSCONVERTER_LOGS_FILES_LIST_JSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
+    export LOGSCONVERTER_MONGO_COLLECTION="logs"  
+    
 ```
