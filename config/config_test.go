@@ -2,37 +2,40 @@ package config
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"os"
 	"path/filepath"
-	"reflect"
 	"testing"
-
-	log "github.com/sirupsen/logrus"
 )
 
-func testConfigCreate(configPath string, logsFilesListJSON string, logLevel string, mongoURL string, mongoDB string, mongoCollection string, dropDB bool) error {
+func testConfigCreate(t *testing.T, configPath string, logsFilesListJSON string, logLevel string, mongoURL string, mongoDB string,
+	mongoCollection string, dropDB bool) error {
+
 	fmt.Println("Helper func in action")
 	if err := os.MkdirAll(filepath.Dir(configPath), 0700); err != nil {
-		log.Fatalf("failed creating all dirs for config file [%s]: %v", filepath.Dir(configPath), err)
+		t.Fatalf("failed creating all dirs for config file [%s]: %v", filepath.Dir(configPath), err)
 
 	}
 
 	configFile, err := os.OpenFile(configPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0777)
+
 	if err != nil {
-		log.Fatalf("error opening config file: %v", err)
+		t.Fatalf("error opening config file: %v", err)
 	}
 
 	if err != nil {
-		return fmt.Errorf("Failed to create test config: %v", err)
+		return fmt.Errorf("failed to create test config: %v", err)
 	}
+
 	_, err = configFile.WriteString(fmt.Sprintf(`LogLevel="%s"
 	LogsFilesListJSON='%s'
-	MongoURL="%s"
-	MongoDB="%s"
+	DBURL="%s"
+	DBName="%s"
 	MongoCollection="%s"
 	DropDB=%t`, logLevel, logsFilesListJSON, mongoURL, mongoDB, mongoCollection, dropDB))
+
 	if err != nil {
-		return fmt.Errorf("Failed to write test config: %v", err)
+		return fmt.Errorf("failed to write test config: %v", err)
 	}
 	if err := configFile.Close(); err != nil {
 		return fmt.Errorf("failed to close test config file descriptor: %v", err)
@@ -41,10 +44,10 @@ func testConfigCreate(configPath string, logsFilesListJSON string, logLevel stri
 	return nil
 }
 
-func testConfigDelete(configPath string) {
+func testConfigDelete(t *testing.T, configPath string) {
 	err := os.Remove(configPath)
 	if err != nil {
-		log.Fatalf("Failed to delete old config file")
+		t.Fatalf("Failed to delete old config file")
 	}
 }
 
@@ -52,63 +55,67 @@ func TestLoadConfig(t *testing.T) {
 	type input struct {
 		logsFilesListJSON string
 		logLevel          string
-		mongoURL          string
-		mongoDB           string
-		mongoUsername     string
-		mongoPassword     string
+		DBURL             string
+		DBName            string
+		DBUsername        string
+		DBPassword        string
 		mongoCollection   string
 		dropDB            bool
+		followFiles       bool
+		fileMustExist     bool
 	}
 	type expectedResult struct {
 		wantConfig *Config
 		wantErr    bool
 	}
-	type testCase struct {
+	var tests = []struct {
 		id             int
 		description    string
 		input          input
 		expectedResult expectedResult
-	}
-	type testSuite []testCase
-	var ts = testSuite{
-		testCase{
+	}{
+		{
 			id:          1,
 			description: `Check configuration loading from cofig file`,
 			input: input{
 				logsFilesListJSON: `{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}`,
 				logLevel:          "Info",
-				mongoURL:          "localhost:27017",
-				mongoUsername:     "",
-				mongoPassword:     "",
-				mongoDB:           "myDB",
+				DBURL:             "localhost:27017",
+				DBUsername:        "",
+				DBPassword:        "",
+				DBName:            "myDB",
 				mongoCollection:   "logs",
 				dropDB:            true,
+				followFiles:       true,
+				fileMustExist:     true,
 			},
 			expectedResult: expectedResult{
 				wantConfig: &Config{
 					LogsFilesListJSON: `{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}`,
 					LogLevel:          "Info",
-					MongoURL:          "localhost:27017",
-					MongoUsername:     "",
-					MongoPassword:     "",
-					MongoDB:           "myDB",
+					DBURL:             "localhost:27017",
+					DBUsername:        "",
+					DBPassword:        "",
+					DBName:            "myDB",
 					MongoCollection:   "logs",
 					DropDB:            true,
-					LogsFilesList:     map[string]string{"testdata/testfile1.log": "second_format", "testdata/dir1/testfile2.log": "first_format"},
+					logsFilesList:     map[string]string{"testdata/testfile1.log": "second_format", "testdata/dir1/testfile2.log": "first_format"},
+					FilesMustExist:    true,
+					FollowFiles:       true,
 				},
 				wantErr: false,
 			},
 		},
-		testCase{
+		{
 			id:          2,
 			description: `Broken config: incorrect json with files`,
 			input: input{
 				logsFilesListJSON: `{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format`,
 				logLevel:          "Info",
-				mongoURL:          "localhost:27017",
-				mongoUsername:     "",
-				mongoPassword:     "",
-				mongoDB:           "myDB",
+				DBURL:             "localhost:27017",
+				DBUsername:        "",
+				DBPassword:        "",
+				DBName:            "myDB",
 				mongoCollection:   "logs",
 				dropDB:            true,
 			},
@@ -117,16 +124,16 @@ func TestLoadConfig(t *testing.T) {
 				wantErr:    true,
 			},
 		},
-		testCase{
+		{
 			id:          3,
 			description: `Broken config: empty json with files`,
 			input: input{
 				logsFilesListJSON: `{}`,
 				logLevel:          "Info",
-				mongoURL:          "localhost:27017",
-				mongoUsername:     "",
-				mongoPassword:     "",
-				mongoDB:           "myDB",
+				DBURL:             "localhost:27017",
+				DBUsername:        "",
+				DBPassword:        "",
+				DBName:            "myDB",
 				mongoCollection:   "logs",
 				dropDB:            true,
 			},
@@ -136,32 +143,35 @@ func TestLoadConfig(t *testing.T) {
 			},
 		},
 	}
+
 	currentDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
-	configPath := filepath.Join(currentDir, "config.toml")
+	configPath := filepath.Join(currentDir, "testdata", "config.toml")
 
-	for _, tc := range ts {
+	for _, tc := range tests {
 
 		t.Run(fmt.Sprintf("Test%d:%s", tc.id, tc.description), func(t *testing.T) {
 
-			err = testConfigCreate(configPath, tc.input.logsFilesListJSON, tc.input.logLevel, tc.input.mongoURL, tc.input.mongoDB, tc.input.mongoCollection, tc.input.dropDB)
+			err = testConfigCreate(t, configPath, tc.input.logsFilesListJSON, tc.input.logLevel, tc.input.DBURL, tc.input.DBName, tc.input.mongoCollection, tc.input.dropDB)
 			if err != nil {
 				t.Fatalf("Error while creating test config: %v", err)
 			}
 
 			gotModel, err := LoadConfig(configPath)
-			testConfigDelete(configPath) // Delete old config file after it was loaded
 
-			if (err != nil) != tc.expectedResult.wantErr {
-				t.Errorf("processLine() error = %+v, \nwantErr %+v", err, tc.expectedResult.wantErr)
-				return
-			}
+			switch tc.expectedResult.wantErr {
+			case true:
+				assert.Error(t, err, "Expected to receive error from LoadConfig()")
 
-			if !reflect.DeepEqual(gotModel, tc.expectedResult.wantConfig) {
-				t.Errorf("LoadConfig() = %+v, \nwant %+v", gotModel, tc.expectedResult.wantConfig)
+			case false:
+				assert.NoError(t, err, "Unexpected error from LoadConfig()")
+
 			}
+			assert.Equal(t, tc.expectedResult.wantConfig, gotModel)
+
+			testConfigDelete(t, configPath) // Delete old config file after it was loaded
 
 		})
 	}

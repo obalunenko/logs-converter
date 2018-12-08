@@ -14,37 +14,45 @@ import (
 type Config struct {
 	LogsFilesListJSON string            `required:"true"` // (example: '{"/log1.txt":"first_format ", "/dir/log2.log":"second_format "}'
 	LogLevel          string            `default:"Info"`  // tool's logs level in stdout
-	LogsFilesList     map[string]string `json:"-"`        // LogsFilesList store unmarshalled json  LogsFilesListJSON
-	MongoURL          string            `required:"true"` // Mongo URL
-	MongoUsername     string            `default:""`      // MongoUsername
-	MongoPassword     string            `default:""`      // MongoPassword
-	MongoDB           string            `default:"myDB"`  // Mongo DB name
+	logsFilesList     map[string]string // LogsFilesList store unmarshalled json  LogsFilesListJSON
+	DBURL             string            `required:"true"` // Database URL
+	DBUsername        string            `default:""`      // Database Username
+	DBPassword        string            `default:""`      // DBPassword
+	DBName            string            `default:"myDB"`  // DB name
 	MongoCollection   string            `default:"logs"`  // Mongo DB collection
 	DropDB            bool              `default:"false"` // if true - will dorp whole collection
+	FollowFiles       bool              `default:"true"`  // if true - will tail file and wait for updates
+	FilesMustExist    bool              `default:"true"`  // if true - will throw error when file is not exist; when false - wait for file create
+
 }
 
 // Help output for flags when program run with -h flag
 func setFlagsHelp() map[string]string {
 	usageMsg := make(map[string]string)
 
-	usageMsg["LogsFilesListJSON"] = `JSON with list of all files that need to be looked at and converted
-					example of JSON:
-						{
-							"/log1.txt":"first_format", 
-							"/dir/log2.log":"second_format",
-							"/dir2/log3.txt":"first_format"
-						}
-			`
+	usageMsg["logs-files-list-json"] = `JSON with list of all files that need to be looked at and converted
+								example of JSON:
+									{
+										"/log1.txt":"first_format", 
+										"/dir/log2.log":"second_format",
+										"/dir2/log3.txt":"first_format"
+									}`
 	usageMsg["LogLevel"] = `LogLevel level: All, Debug, Info, Error, Fatal, Panic, Warn`
-
-	usageMsg["MongoURL"] = "Mongo URL"
+	usageMsg["DBURL"] = "Mongo URL"
 	usageMsg["MongoCollection"] = "Mongo DB collection"
-	usageMsg["MongoDB"] = "Mongo DB name"
+	usageMsg["DBName"] = "Mongo DB name"
 	usageMsg["DropDB"] = "if true - will drop whole collection before starting to store all logs"
-	usageMsg["MongoPassword"] = "MongoDB Password"
-	usageMsg["MongoUsername"] = "MongoDB Username"
+	usageMsg["DBPassword"] = "DBName Password"
+	usageMsg["DBUsername"] = "DBName Username"
+	usageMsg["FollowFiles"] = ` if true - will tail file and wait for updates; when false - end file reading after EOF`
+	usageMsg["FilesMustExist"] = `if true - will throw error when file is not exist; when false - wait for file create`
 
 	return usageMsg
+}
+
+// GetFilesList returns list of log files with filename and format
+func (cfg *Config) GetFilesList() map[string]string {
+	return cfg.logsFilesList
 }
 
 // LoadConfig loads configuration struct from env vars, flags or from toml file
@@ -58,45 +66,45 @@ func LoadConfig(configPath string) (*Config, error) {
 
 	err := m.Load(svcConfig)
 	if err != nil {
-
-		log.Errorf("Failed to load configuration: %v", err)
 		return nil, fmt.Errorf("failed to load configuration: %v", err)
 	}
 
 	setLogger(svcConfig)
 
 	// Parse log files names with formats
-	svcConfig.LogsFilesList = make(map[string]string)
-	errUnMarshal := json.Unmarshal([]byte(svcConfig.LogsFilesListJSON), &svcConfig.LogsFilesList)
-	if errUnMarshal != nil {
-		log.Errorf("Failed to unmarshal json with files [%s] to struct: %v", svcConfig.LogsFilesListJSON, errUnMarshal)
-		return nil, fmt.Errorf("failed to unmarshal json with files [%s] to struct: %v", svcConfig.LogsFilesListJSON, errUnMarshal)
+	svcConfig.logsFilesList, err = parseLogsFilesList(svcConfig.LogsFilesListJSON)
+	if err != nil {
+		return nil, err
 	}
 
 	err = m.Validate(svcConfig)
 	if err != nil {
-
-		log.Errorf("Config struct is invalid: %v\n", err)
 		return nil, fmt.Errorf("config struct is invalid: %v", err)
 	}
-	if len(svcConfig.LogsFilesList) == 0 {
-
-		log.Errorf("No log files provided: [%+v]", svcConfig.LogsFilesList)
-		return nil, fmt.Errorf("No log files provided: [%+v]", svcConfig.LogsFilesList)
+	if len(svcConfig.logsFilesList) == 0 {
+		return nil, fmt.Errorf("no log files provided: [%+v]", svcConfig.logsFilesList)
 	}
 
 	log.Infof("Configuration loaded\n")
 
 	prettyConfig, err := json.MarshalIndent(svcConfig, "", "")
 	if err != nil {
-
-		log.Errorf("Failed to marshal indent config: %v", err)
 		return nil, fmt.Errorf("failed to marshal indent config: %v", err)
-
 	}
 	log.Infof("Current config:\n %s", string(prettyConfig))
 
 	return svcConfig, nil
+
+}
+
+func parseLogsFilesList(filesListJSON string) (map[string]string, error) {
+	filesList := make(map[string]string)
+
+	errUnMarshal := json.Unmarshal([]byte(filesListJSON), &filesList)
+	if errUnMarshal != nil {
+		return nil, fmt.Errorf("failed to unmarshal json with files [%s] to struct: %v", filesListJSON, errUnMarshal)
+	}
+	return filesList, nil
 
 }
 

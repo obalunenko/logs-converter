@@ -2,9 +2,11 @@ package converter
 
 import (
 	"fmt"
-	"reflect"
 	"testing"
 	"time"
+
+	"github.com/oleg-balunenko/logs-converter/model"
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_processLine(t *testing.T) {
@@ -15,20 +17,16 @@ func Test_processLine(t *testing.T) {
 		lineNumber uint64
 	}
 	type expectedResult struct {
-		wantModel *LogModel
+		wantModel *model.LogModel
 		wantErr   bool
 	}
-	type testCase struct {
+	var tests = []struct {
 		id             int
 		description    string
 		input          input
 		expectedResult expectedResult
-	}
-
-	type testSuite []testCase
-
-	var ts = testSuite{
-		testCase{
+	}{
+		{
 			id:          1,
 			description: `Invalid format of line. Separator "|"  not found`,
 			input: input{
@@ -42,7 +40,7 @@ func Test_processLine(t *testing.T) {
 				wantErr:   true,
 			},
 		},
-		testCase{
+		{
 			id:          2,
 			description: `Positive case. First format - one "|" separator`,
 			input: input{
@@ -52,7 +50,7 @@ func Test_processLine(t *testing.T) {
 				lineNumber: 1,
 			},
 			expectedResult: expectedResult{
-				wantModel: &LogModel{
+				wantModel: &model.LogModel{
 					LogTime:   time.Date(2018, 02, 01, 15, 04, 05, 0, time.UTC),
 					LogMsg:    `This is log message`,
 					LogFormat: `first_format`,
@@ -61,7 +59,7 @@ func Test_processLine(t *testing.T) {
 				wantErr: false,
 			},
 		},
-		testCase{
+		{
 			id:          3,
 			description: `Positive case. First format - more that one  "|" separator`,
 			input: input{
@@ -71,7 +69,7 @@ func Test_processLine(t *testing.T) {
 				lineNumber: 1,
 			},
 			expectedResult: expectedResult{
-				wantModel: &LogModel{
+				wantModel: &model.LogModel{
 					LogTime:   time.Date(2018, 02, 01, 15, 04, 05, 0, time.UTC),
 					LogMsg:    `This is log message | that has|more than one separator`,
 					LogFormat: `first_format`,
@@ -80,7 +78,7 @@ func Test_processLine(t *testing.T) {
 				wantErr: false,
 			},
 		},
-		testCase{
+		{
 			id:          4,
 			description: `Positive case. Second format`,
 			input: input{
@@ -90,7 +88,7 @@ func Test_processLine(t *testing.T) {
 				lineNumber: 1,
 			},
 			expectedResult: expectedResult{
-				wantModel: &LogModel{
+				wantModel: &model.LogModel{
 					LogTime:   time.Date(2018, 02, 01, 15, 04, 05, 0, time.UTC),
 					LogMsg:    `This is log message`,
 					LogFormat: `second_format`,
@@ -99,7 +97,7 @@ func Test_processLine(t *testing.T) {
 				wantErr: false,
 			},
 		},
-		testCase{
+		{
 			id:          5,
 			description: `Negative case. Format missmatch - time format is second, but in config specified that file has first`,
 			input: input{
@@ -113,7 +111,7 @@ func Test_processLine(t *testing.T) {
 				wantErr:   true,
 			},
 		},
-		testCase{
+		{
 			id:          6,
 			description: `Negative case. Not supported format specified in config`,
 			input: input{
@@ -127,7 +125,7 @@ func Test_processLine(t *testing.T) {
 				wantErr:   true,
 			},
 		},
-		testCase{
+		{
 			id:          7,
 			description: `Negative case. Format missmatch - time format is first, but in config specified that file has second`,
 			input: input{
@@ -141,7 +139,7 @@ func Test_processLine(t *testing.T) {
 				wantErr:   true,
 			},
 		},
-		testCase{
+		{
 			id:          8,
 			description: `Negative case. Empty line received`,
 			input: input{
@@ -155,7 +153,7 @@ func Test_processLine(t *testing.T) {
 				wantErr:   true,
 			},
 		},
-		testCase{
+		{
 			id:          9,
 			description: `Negative case. Failed to parse time`,
 			input: input{
@@ -171,18 +169,19 @@ func Test_processLine(t *testing.T) {
 		},
 	}
 
-	for _, tc := range ts {
-		//if tc.id == 8 {
+	for _, tc := range tests {
 		t.Run(fmt.Sprintf("Test%d:%s", tc.id, tc.description), func(t *testing.T) {
 			gotModel, err := processLine(tc.input.logName, tc.input.line, tc.input.format, tc.input.lineNumber)
-			if (err != nil) != tc.expectedResult.wantErr {
-				t.Errorf("processLine() error = %+v, \nwantErr %+v", err, tc.expectedResult.wantErr)
-				return
+
+			switch tc.expectedResult.wantErr {
+			case true:
+				assert.Error(t, err, "Expected to receive error from processLine()")
+			case false:
+				assert.NoError(t, err, "Unexpected error from processLine()")
 			}
-			if !reflect.DeepEqual(gotModel, tc.expectedResult.wantModel) {
-				t.Errorf("processLine() = %+v, \nwant %+v", gotModel, tc.expectedResult.wantModel)
-			}
+
+			assert.Equal(t, tc.expectedResult.wantModel, gotModel)
+
 		})
 	}
-	//}
 }
