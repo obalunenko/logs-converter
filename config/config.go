@@ -14,7 +14,7 @@ import (
 type Config struct {
 	LogsFilesListJSON string            `required:"true"` // (example: '{"/log1.txt":"first_format ", "/dir/log2.log":"second_format "}'
 	LogLevel          string            `default:"Info"`  // tool's logs level in stdout
-	logsFilesList     map[string]string `json:"-"`        // LogsFilesList store unmarshalled json  LogsFilesListJSON
+	logsFilesList     map[string]string // LogsFilesList store unmarshalled json  LogsFilesListJSON
 	DBURL             string            `required:"true"` // Database URL
 	DBUsername        string            `default:""`      // Database Username
 	DBPassword        string            `default:""`      // DBPassword
