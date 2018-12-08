@@ -30,7 +30,7 @@ func main() {
 		log.Fatalf("Failed to load config: %v \nExiting", errLoadCfg)
 	}
 
-	dbc, err := db.Connect(db.Mongo, cfg.MongoURL, cfg.MongoDB, cfg.MongoCollection, cfg.MongoUsername, cfg.MongoPassword)
+	dbc, err := db.Connect(db.Mongo, cfg.DBURL, cfg.DBName, cfg.MongoCollection, cfg.DBUsername, cfg.DBPassword)
 	if err != nil {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
@@ -43,7 +43,7 @@ func main() {
 	errorsChan := make(chan error)
 
 	wg := &sync.WaitGroup{}
-	startJobs(cfg.LogsFilesList, wg, resChan, errorsChan)
+	startJobs(cfg.GetFilesList(), cfg.FilesMustExist, cfg.FollowFiles, wg, resChan, errorsChan)
 
 	signals := make(chan os.Signal, 1)
 	stop := make(chan struct{})
@@ -100,10 +100,10 @@ func main() {
 
 }
 
-func startJobs(files map[string]string, group *sync.WaitGroup, resChan chan *model.LogModel, errorsChan chan error) {
+func startJobs(files map[string]string, filesmustExist bool, followFiles bool, group *sync.WaitGroup, resChan chan *model.LogModel, errorsChan chan error) {
 	for l, format := range files {
 		group.Add(1)
-		go converter.Start(l, format, true, false, resChan, errorsChan, group)
+		go converter.Start(l, format, filesmustExist, followFiles, resChan, errorsChan, group)
 
 	}
 
@@ -114,7 +114,7 @@ func executionSummary(received uint64, stored uint64, failed uint64) {
 	w.Init(os.Stdout, 0, 0, 0, ' ', tabwriter.Debug|tabwriter.AlignRight)
 
 	_, err := fmt.Fprintf(w, "Execution statistics:\n"+
-		"Total models received\tStored in MongoDB\tFailed to store in MongoDB\n"+
+		"Total models received\tStored in DBName\tFailed to store in DBName\n"+
 		"%d\t%d\t%d", received, stored, failed)
 	if err != nil {
 		log.Fatalf("failed to print execution summary: %v", err)

@@ -175,9 +175,9 @@ func Test_processLine(t *testing.T) {
 
 			switch tc.expectedResult.wantErr {
 			case true:
-				assert.Error(t, err, "Expected to receive error")
+				assert.Error(t, err, "Expected to receive error from processLine()")
 			case false:
-				assert.NoError(t, err, "Unexpected error")
+				assert.NoError(t, err, "Unexpected error from processLine()")
 			}
 
 			assert.Equal(t, tc.expectedResult.wantModel, gotModel)

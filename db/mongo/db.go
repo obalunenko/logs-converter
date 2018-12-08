@@ -18,7 +18,7 @@ type DB struct {
 	collection *mgo.Collection
 }
 
-// NewMongoDBConnection establishes connection with mongoDB and return MongoDB object
+// NewMongoDBConnection establishes connection with mongoDB and return DBName object
 func NewMongoDBConnection(url, dbName, collectionName, username, password string) *DB {
 
 	return newConnection(url, dbName, collectionName, username, password)
