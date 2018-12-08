@@ -56,14 +56,15 @@ func (db *DB) Store(model *model.LogModel) (string, error) {
 	log.Debugf("Storing model [%+v] to collection [%+v]", model, db.collection)
 
 	id := bson.NewObjectId().Hex()
-	res, errInsert := db.collection.Upsert(bson.M{"id": id}, model)
+	model.ID = id
+	errInsert := db.collection.Insert(model)
 	if errInsert != nil {
 		return "", fmt.Errorf("StoreModel: failed to store model %+v at [%v.%v]: %v", model, db.database.Name, db.collection.Name, errInsert)
 	}
 
 	log.Debugf("Successfully stored model [%+v]", model)
 
-	return res.UpsertedId.(string), nil
+	return model.ID, nil
 }
 
 // Delete deletes model from db by id
