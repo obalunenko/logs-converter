@@ -13,7 +13,24 @@ The converter will parse files with different log formats and according
 on their basis insert MongoDB documents with a monotonous structure.
 
 ## How to run it
+Use docker and docker-compose! (the easiest way:) )
+- install docker https://www.docker.com/products/docker-desktop
+- run docker
+- clone repo
+- cd to repo root
+- execute command 
 
+    ```bash
+    docker-compose up
+    ```
+- download executable from latest relases <a href="https://github.com/oleg-balunenko/logs-converter/releases/latest“><img src=”https://img.shields.io/badge/artifacts-download-blue.svg" alt =“Latest release artifacts”></img></a>
+- fill all flags from *Configuration* part or run application with flag -h to see full help info
+
+    ```bash
+    ./logs-converter -h
+    ```
+
+Alternative way:
 1. Install Mongo (oficial installation guides: <https://docs.mongodb.com/manual/installation/)>
 2. Run mongo
 
@@ -47,11 +64,11 @@ Tool could be configured in 3 ways:
 ```text
   -dropdb
         if true - will drop whole collection before starting to store all logs (default true)
-  -loglevel
+  -log-level
         LogLevel level: All, Debug, Info, Error, Fatal, Panic, Warn (default Debug)
   -logsfileslist
          (default map[])
-  -logsfileslistjson
+  -logs-files-list-json
         JSON with list of all files that need to be looked at and converted
                                                 example of JSON:
                                                         {
@@ -60,30 +77,34 @@ Tool could be configured in 3 ways:
                                                                 "/dir2/log3.txt":"first_format"
                                                         }
                                  (default {"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"})
-  -mongocollection
+  -mongo-collection
         Mongo DB collection (default logs)
-  -mongodb
+  -db-name
         Mongo DB name (default myDB)
-  -mongopassword
+  -db-password
         MongoDB Password
-  -mongourl
-        Mongo URL (default localhost:27017)
-  -mongousername
+  -dburl
+       DB URL (default localhost:27017)
+  -db-username
         MongoDB Username
+   -files-must-exist
+        if true - will throw error when file is not exist; when false - wait for file create (default: true)
+   -follow-files
+         if true - will tail file and wait for updates; when false - end file reading after EOF (defaultL true)
 ```
 
 ### TOML`config.toml` update following parameters to what you need
 
-***LogLevel** - stdout log level: All, Debug, Info, Error, Fatal, Panic, Warn (default Debug)
-***LogsFilesListJSON** - JSON with list of all files that need to be looked at and converted
-***DBURL** - DB URL (default localhost:27017)
-***DBName** - DB name (default myDB)
-***MongoCollection** - Mongo DB collection (default logs)
-***DBUsername** - Mongo DB Username
-***DBPassword** - Mongo DB password
-***DropDB** - if true - will drop whole collection before starting to store all logs
-***FilesMustExist*** - if true - will throw error when file is not exist; when false - wait for file create
-***FollowFiles*** - if true - will tail file and wait for updates; when false - end file reading after EOF
+- **LogLevel** - stdout log level: All, Debug, Info, Error, Fatal, Panic, Warn (default Debug)
+- **LogsFilesListJSON** - JSON with list of all files that need to be looked at and converted
+- **DBURL** - DB URL (default localhost:27017)
+- **DBName** - DB name (default myDB)
+- **MongoCollection** - Mongo DB collection (default logs)
+- **DBUsername** - Mongo DB Username
+- **DBPassword** - Mongo DB password
+- **DropDB** - if true - will drop whole collection before starting to store all logs
+- **FilesMustExist*** - if true - will throw error when file is not exist; when false - wait for file create
+- **FollowFiles*** - if true - will tail file and wait for updates; when false - end file reading after EOF
 
 example of `config.toml`:
 
@@ -107,9 +128,8 @@ export following environment variables with your values
 example:
 
 ```bash
-
-	export LOGSCONVERTER_DB_NAME="myDB"
-	export LOGSCONVERTER_DB_PASSWORD=""
+    export LOGSCONVERTER_DB_NAME="myDB"
+    export LOGSCONVERTER_DB_PASSWORD=""
     export LOGSCONVERTER_DBURL="localhost:27017"
     export LOGSCONVERTER_DB_USERNAME=""
     export LOGSCONVERTER_DROP_DB=false
