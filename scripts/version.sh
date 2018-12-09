@@ -5,15 +5,24 @@ git pull
 
 NEWVERSION=$(git tag | sed 's/\(.*v\)\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)/\2;\3;\4;\1/g' | sort  -t';' -k 1,1n  -k 2,2n -k 3,3n | tail -n 1  | awk -F';' '{printf "%s%d.%d.%d", $4, $1,$2,($3 + 1) }')
 
-if [ "${NEWVERSION}" = "" ]; then
+if [[ "${NEWVERSION}" = "" ]]; then
    NEWVERSION="v1.0.0"
 fi
 
 echo ${NEWVERSION}
 
-read  -n 1 -p "y?:" userok
-if [ "$userok" = "y" ]; then
-    echo
-    echo ${NEWVERSION} > version && git add version && git commit -m "version ${NEWVERSION}" && git tag -a ${NEWVERSION} -m ${NEWVERSION} && git push --tags && git push
+message="version ${NEWVERSION}"
+ADD="version"
+read -r  -n 1 -p "y?:" userok
+echo ""
+if [[ "$userok" = "y" ]]; then
+	read -r -n 1 -p "Update commit message?: y/n" userok
+	echo ""
+	if [[ "$userok" = "y" ]]; then
+        read -r -p "Message: " message
+        ADD="."
+        echo ""
+    fi
+echo ${NEWVERSION} > version && git add ${ADD} && git commit -m "$message"&& git tag -a ${NEWVERSION} -m ${NEWVERSION} && git push --tags && git push
 fi
 echo
