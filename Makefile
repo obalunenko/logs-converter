@@ -28,6 +28,10 @@ help:
 
 default: dev
 
+## dependensies - fetch all dependencies for sripts
+dependensies:
+	./scripts/get-dependencies.sh
+
 ## Dev mode - go run
 dev:
 	docker-compose up&
@@ -51,7 +55,7 @@ test-cover:
 	gocov convert .testCoverage.out | gocov report
 
 ## Release
-release: test test-cover compile
+release: dependensies lint test test-cover compile
 
 
 
