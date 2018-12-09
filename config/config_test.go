@@ -2,10 +2,11 @@ package config
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func testConfigCreate(t *testing.T, configPath string, logsFilesListJSON string, logLevel string, mongoURL string, mongoDB string,
