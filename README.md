@@ -39,7 +39,7 @@ Alternative way:
     ```
 
 3. Update `config.toml` file in the root of repository with actual parameters and save it (see Configuration)
-4. a) - From root of repository run
+4. a) From root of repository run
 
     ```bash
       go build
@@ -49,7 +49,7 @@ Alternative way:
 5. Run tool
 
     ```bash
-      .logs-converter
+      ./logs-converter
     ```
 
 ## Configuration
