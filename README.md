@@ -23,7 +23,7 @@ Use docker and docker-compose! (the easiest way:) )
     ```bash
     docker-compose up
     ```
-- download executable from latest relases <a href="https://github.com/oleg-balunenko/logs-converter/releases/latest“><img src=”https://img.shields.io/badge/artifacts-download-blue.svg" alt =“Latest release artifacts”></img></a>
+- download executable from latest relases [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
 - fill all flags from *Configuration* part or run application with flag -h to see full help info
 
     ```bash
