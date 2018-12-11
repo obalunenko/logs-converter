@@ -9,6 +9,7 @@ env:
   - secure: MRZFXkbbzckI3jl3sP3zkjt6Ezy6pX7vAthXKzF8pIvysXCzDm5Z7AlISWTk7PCcErH2OdndsGmUI6WvPJjm/TZxFCyRgkbzfxGbmFi6Z2b/Ib5fj2SEgdLUeKnofi7oRx27kzEG4wlCxbOspUedFL5naORvGUkYeGVtIs7xhhQHmJnEIBfe1Z4KGUmCmKjp1RP0uutSHAsmB4umK8CtYFbchfohUd9OGCPQo5ioanZyhDCv1DnZh4b3oWYf08oyTojEM3IrpmwKW6HY9Pywq2vkGo1IcpnoEqB+b+RtGrzdgrXP7rPY9I7V8Y6UpoD5zDWRCGpXJTdq6eVuo0eA5u74XKiWoSkffw9cOSqBxNDTk9SinuqXck+ybr/TWqoqSmdcvC//VEFrXmggqJtdRLXOSv8g+kZcHmUAJtVoeqx0n5hQcMj0Nof85greMKkSwXJ9ccHDL4sZjtFsR7aKcJv0Euo+6ib/kNiQkAbfWA93iDLxUIb0enzPPn/AK+fcGH0GA7epF8RHGm7xKmlv+OhbPQi6Pnh7JTJ/ATYJLenYYOs+Ucx/ygXL5lca6UF+YqFarIDrk3qZGrzkDzItjL8X3BgLyC7NTODsEFJSvZg27EGXy0IaZ6dBFrD10h/ESzzwrQ1Y3D2E8jpMToHqSpw23URbdOXrm4d8BY7c7ac=
   - secure: dQxkdBQnxPV+mCpg2cEG4axoXWS3nTZKsFTV4xvfebUUF1cr9dXHmAbHm6UEGkfjMv+YcaoID6mT4/3Frf6s5XjuMcljDUJ6QB8QkG3hPXR2UtsWTpDJx2poizid7cFF/siKX4Kz8NWx7HWfpTezDji/KgrLnMX4Zfi3iPisCNWTHcFDITLdkmaeGRvpNJwuaT3gSzJpZEx0mk+ccPnK5DndtT5Sz8Td5cUfeot1L0MBOkzzreeKfgIdg1lz18Jz4zaonXi2MHavI1DF6KIgqxwokkhN1KXh51jnTC7Pz2dGHVFGb4Z//VoCqvGbNFsYeTzDE/en0Uaq70j8ihkrsrbhOxiEP9kMGNeMJWAuvJ4bAhVN/1m18qEr9B7uytgZCJTOX9t8rB1r3lkjoZty6K/v+VJZFAAXMw6eg8dDXBXYq0JAx9duybJ4GdrAsDJThb+iUq+i3OukNodqkWgYnuK3ahkw+w+BqR5aibfwXRlxJAlRB35jDAFIBQouQozSfDd0mIkgtbKBpxynv6psFwxTxHLaTm/tsfTM/ZFva7/WiXLo2pAIiSoKSpONfh2ind+dyAnXoL+oA9hrZPzypxFQeRMuTycEP3B1XcoF6v8OKOUoR6AGTwuWo9t7DJpmrb1HrMfpOyG6xgD8yjY2g2/0illdOaH92XH81E5EyT8=
   - secure: smbU6AellcrbY9wVyI79mB+VkuAkSASKqJsJMjFIvxaK9g5XDe2IH8SjnnWsr2NVtoNfiETGarm8K/baz8Am36J6wfS2JYd6uWaI8sGS/9L/r4NJ8dph+mzXKg7LnVMl8aG7npZ3bVORF9lm+rgTcFtiQ1fZCFL2Qt8svtBKvzaYLKkXpiZPtFQh9G5JsFXboZeDR5nyMkBq0DfhuD8WVPIcT4RLad/RhJKlYkKEOpL+Y/5le4YaiW4bLqMi4fyVqeLv/dzEZVUAQR63eZzapXCM/aQIs2z0+ZfS1upReU4o1CEsVz/df9fhbKli2avOnf4E54P0EL87t0OYNHIMJjgTRj2nPukH8VPXrj2cGZtEPcMUwkhz9Z7eYUNeGwfyELxjAfeIM7y63fhwNQRfKU0LNMfBHKnGnvfT4WzEIdAJRdKrPcqLvyV7CVXKHkh/nh31Qf9Tkydm5upcJX0wRrJBR+rDgarAE0azHAYRwBnmgYbIWQ8IoG4ky0AZFxSsvCXKXbgWwh4LvcSfienlGY+JN9Q9sGrlDH9wunDxLhP8fhlMRgQhSZfiffcjtibHAJkq8LG4kjdTZSTagIUi4LauiXrJ7bhcDERXbDSQeVK6Yb7oZuU693TEgGRUK7HFCI8bxRk9b7t4/5Eu+RmbGp6Na2CsFTGwWcr7C+37j+Y=
+  - secure: us1+zKbXue9MPCK15k5f83ivgBcnJVBWeDtqVK2zQPFcaue9Vn90uuky27V5z4Lfs0QyhYs1ex0aiow/ANdGaqUIH00ZHXQ6aREQeUwI2O0ynZ4b/7CjSLKcWIbtXkHFmLk/s9AfAa+2vrZk4Upf4FaVrhY4kpjXg/jtKtmU/Q0hGvS8qVrIgHoF8DnLRFRwJ5i8o0W6eEpkh4Fj8mM56v0bBxpFNpc4d7wT0BeLP1ut4jVWVokf6SShptPCJYW/3XfWskQvf1FrTC2VuoKTIpZh7K5RFqsYB8EOoIITGu3pVPCqfU+PiELl2cegYpttZvIG/6/0G3krgR2S734s/YA8vCVJ0tFmnKjJF6dfkCy63/I5wtNjOCgYx7xowqKditqOfC9Opkv+H2H/+aDng/dddnKbDREQTfYq5WOcV5ky8uQ40KtQ2wmfJEgJKronkH186wXMpJaAggvWtVARh1y94Nr+vl9jSP7afP/VHfpm88YFELUqqvWouvoEyMrT/Vhq+CEL/jncw29ic5VJ+4q8KslEVzDroGjPTpbY2k+YjSjaeM9LVigKR7gkjCZYJI9bKgAnfXwg/VlWq09HfrvEhyIrlJB0f66ORIZPPGzIa/BcRGlvTNap9AuMqZ06lNsjVjLW0kZjmxLBCKirOGZDURmeLU6aebxVOj6LEdE=
 jobs:
   include:
   - stage: Unit Tests
@@ -25,6 +26,8 @@ jobs:
       ./...
     - "$HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken
       $COVERALLS_TOKEN"
+    after_success:
+    - bash <(curl -s https://codecov.io/bash)
   - stage: Metalinter analysis
     go:
     - 1.11.x
@@ -52,47 +55,49 @@ jobs:
     script:
     - echo "Build stage"
     - mkdir -p build/{386,amd64}
-    - GOARCH=386 go build --ldflags "-X main.version=${TRAVIS_TAG} -X main.build=${TRAVIS_BUILD_NUMBER} -X main.commit=${TRAVIS_COMMIT}" -o build/386/${MYAPP}-386 *.go
-    - GOARCH=amd64 go build --ldflags "-X main.version=${TRAVIS_TAG} -X main.build=${TRAVIS_BUILD_NUMBER} -X main.commit=${TRAVIS_COMMIT}" -o build/amd64/${MYAPP}-amd64 *.go
+    - GOARCH=386 go build --ldflags "-X main.version=${TRAVIS_TAG} -X main.build=${TRAVIS_BUILD_NUMBER}
+      -X main.commit=${TRAVIS_COMMIT}" -o build/386/${MYAPP}-386 *.go
+    - GOARCH=amd64 go build --ldflags "-X main.version=${TRAVIS_TAG} -X main.build=${TRAVIS_BUILD_NUMBER}
+      -X main.commit=${TRAVIS_COMMIT}" -o build/amd64/${MYAPP}-amd64 *.go
   - stage: GitHub Release
-    go: 
-      - 1.11.x
+    go:
+    - 1.11.x
     os:
     - osx
     go_import_path: github.com/oleg-balunenko/logs-converter
     install: skip
     script: skip
     before_deploy:
-      - ./scripts/run-build.sh
+    - "./scripts/run-build.sh"
     deploy:
-      - provider: releases
-        api_key:
-          secure: ${GH_TOKEN}
-        file:
-          - release/${MYAPP}-linux-amd64
-          - release/${MYAPP}-linux-amd64.sha256
-          - release/${MYAPP}-darwin-amd64
-          - release/${MYAPP}-darwin-amd64.sha256
-          - release/${MYAPP}-freebsd-amd64
-          - release/${MYAPP}-freebsd-amd64.sha256
-          - release/${MYAPP}-windows-amd64.exe
-          - release/${MYAPP}-windows-amd64.exe.sha256
-          - release/${MYAPP}-linux-386
-          - release/${MYAPP}-linux-386.sha256
-          - release/${MYAPP}-darwin-386
-          - release/${MYAPP}-darwin-386.sha256
-          - release/${MYAPP}-freebsd-386
-          - release/${MYAPP}-freebsd-386.sha256
-          - release/${MYAPP}-windows-386.exe
-          - release/${MYAPP}-windows-386.exe.sha256
-          - release/${MYAPP}-linux-ppc64
-          - release/${MYAPP}-linux-ppc64.sha256
-          - release/${MYAPP}-linux-ppc64le
-          - release/${MYAPP}-linux-ppc64le.sha256
-        skip_cleanup: true
-        on:
-          repo: oleg-balunenko/logs-converter
-          branch: master
-          tags: true
+    - provider: releases
+      api_key:
+        secure: "${GH_TOKEN}"
+      file:
+      - release/${MYAPP}-linux-amd64
+      - release/${MYAPP}-linux-amd64.sha256
+      - release/${MYAPP}-darwin-amd64
+      - release/${MYAPP}-darwin-amd64.sha256
+      - release/${MYAPP}-freebsd-amd64
+      - release/${MYAPP}-freebsd-amd64.sha256
+      - release/${MYAPP}-windows-amd64.exe
+      - release/${MYAPP}-windows-amd64.exe.sha256
+      - release/${MYAPP}-linux-386
+      - release/${MYAPP}-linux-386.sha256
+      - release/${MYAPP}-darwin-386
+      - release/${MYAPP}-darwin-386.sha256
+      - release/${MYAPP}-freebsd-386
+      - release/${MYAPP}-freebsd-386.sha256
+      - release/${MYAPP}-windows-386.exe
+      - release/${MYAPP}-windows-386.exe.sha256
+      - release/${MYAPP}-linux-ppc64
+      - release/${MYAPP}-linux-ppc64.sha256
+      - release/${MYAPP}-linux-ppc64le
+      - release/${MYAPP}-linux-ppc64le.sha256
+      skip_cleanup: true
+      on:
+        repo: oleg-balunenko/logs-converter
+        branch: master
+        tags: true
 addons:
   ssh_known_hosts: github.com
