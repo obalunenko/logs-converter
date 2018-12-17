@@ -1,10 +1,11 @@
-<p align="center"><img src="docs/assets/projectavatar.png" width="360"></p>
-<p align="center">
- <a href="https://travis-ci.org/oleg-balunenko/logs-converter"><img src="https://travis-ci.org/oleg-balunenko/logs-converter.svg?branch=master" alt="Build Status"></img></a>
-    <a href="https://goreportcard.com/report/github.com/oleg-balunenko/logs-converter"><img src="https://goreportcard.com/badge/github.com/oleg-balunenko/logs-converter" alt="Go Report Card"></img></a>
+<p align="center"> <img src="docs/assets/projectavatar.png" width="360"></p> 
+<p align="center"> <a href="https://travis-ci.org/oleg-balunenko/logs-converter"> <img src="https://travis-ci.org/oleg-balunenko/logs-converter.svg?branch=master" alt="Build Status"></img></a>
+ <a href="https://goreportcard.com/report/github.com/oleg-balunenko/logs-converter"><img src="https://goreportcard.com/badge/github.com/oleg-balunenko/logs-converter" alt="Go Report Card"></img></a>
    <a href="https://coveralls.io/github/oleg-balunenko/logs-converter?branch=master"><img src="https://coveralls.io/repos/github/oleg-balunenko/logs-converter/badge.svg?branch=master" alt="Coverage Status"></img></a>
-   <a href="https://sonarcloud.io/dashboard?id=logs-converter"><img src="https://sonarcloud.io/api/project_badges/measure?project=logs-converter&metric=alert_status" alt="Quality Gate Status"></img></a>
-   <a href="https://www.codefactor.io/repository/github/oleg-balunenko/logs-converter"><img src= "https://www.codefactor.io/repository/github/oleg-balunenko/logs-converter/badge" alt="CodeFactor"></img> </a>
+   <a href="https://codecov.io/gh/oleg-balunenko/logs-converter"><img src="https://codecov.io/gh/oleg-balunenko/logs-converter/branch/master/graph/badge.svg" alt="CodeCov"></img></a>
+   <a href="https://codebeat.co/projects/github-com-oleg-balunenko-logs-converter-master"><img alt="codebeat badge" src="https://codebeat.co/badges/f8911e31-4de9-4444-a1ff-9063a272e897" /></a>  
+  <a href="https://sonarcloud.io/dashboard?id=logs-converter"><img src="https://sonarcloud.io/api/project_badges/measure?project=logs-converter&metric=alert_status" alt="Quality Gate Status"></img></a>
+  <a href="https://www.codefactor.io/repository/github/oleg-balunenko/logs-converter"><img src= "https://www.codefactor.io/repository/github/oleg-balunenko/logs-converter/badge" alt="CodeFactor"></img> </a>
    <a href="https://github.com/oleg-balunenko/logs-converter/releases/latest"><img src="https://img.shields.io/badge/artifacts-download-blue.svg" alt ="Latest release artifacts"></img></a>
 </p>
 
