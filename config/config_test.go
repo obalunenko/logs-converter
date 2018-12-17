@@ -130,12 +130,12 @@ func TestLoadConfig(t *testing.T) {
 			description: `Broken config: empty json with files`,
 			input: input{
 				logsFilesListJSON: `{}`,
-				logLevel:          "Debug",
-				DBURL:             "localhost:29800",
+				logLevel:          "Warn",
+				DBURL:             "localhost:2980",
 				DBUsername:        "",
 				DBPassword:        "",
-				DBName:            "myDB1",
-				mongoCollection:   "logs1",
+				DBName:            "myDB2",
+				mongoCollection:   "logs2",
 				dropDB:            true,
 			},
 			expectedResult: expectedResult{
