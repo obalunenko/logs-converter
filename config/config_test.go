@@ -112,12 +112,12 @@ func TestLoadConfig(t *testing.T) {
 			description: `Broken config: incorrect json with files`,
 			input: input{
 				logsFilesListJSON: `{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format`,
-				logLevel:          "Info",
-				DBURL:             "localhost:27017",
+				logLevel:          "Debug",
+				DBURL:             "localhost:29800",
 				DBUsername:        "",
 				DBPassword:        "",
-				DBName:            "myDB",
-				mongoCollection:   "logs",
+				DBName:            "myDB1",
+				mongoCollection:   "logs1",
 				dropDB:            true,
 			},
 			expectedResult: expectedResult{
@@ -130,12 +130,12 @@ func TestLoadConfig(t *testing.T) {
 			description: `Broken config: empty json with files`,
 			input: input{
 				logsFilesListJSON: `{}`,
-				logLevel:          "Info",
-				DBURL:             "localhost:27017",
+				logLevel:          "Debug",
+				DBURL:             "localhost:29800",
 				DBUsername:        "",
 				DBPassword:        "",
-				DBName:            "myDB",
-				mongoCollection:   "logs",
+				DBName:            "myDB1",
+				mongoCollection:   "logs1",
 				dropDB:            true,
 			},
 			expectedResult: expectedResult{
