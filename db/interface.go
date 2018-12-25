@@ -23,7 +23,9 @@ type Repository interface {
 }
 
 // Connect establish connection to passed database type
-func Connect(dbType string, url string, dbName string, colletionName string, username string, password string) (Repository, error) {
+func Connect(dbType string, url string, dbName string, colletionName string, username string,
+	password string) (Repository, error) {
+
 	switch dbType {
 	case Mongo:
 		return mongo.NewMongoDBConnection(url, dbName, colletionName, username, password), nil

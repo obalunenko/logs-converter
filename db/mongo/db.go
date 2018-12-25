@@ -4,12 +4,15 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/oleg-balunenko/logs-converter/model"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+
+	"github.com/oleg-balunenko/logs-converter/model"
 )
+
+const prefix = "db/mongo"
 
 // DB stores mongo db connection details
 type DB struct {
@@ -59,7 +62,9 @@ func (db *DB) Store(model *model.LogModel) (string, error) {
 	model.ID = id
 	errInsert := db.collection.Insert(model)
 	if errInsert != nil {
-		return "", fmt.Errorf("StoreModel: failed to store model %+v at [%v.%v]: %v", model, db.database.Name, db.collection.Name, errInsert)
+		err := fmt.Errorf("failed to store model %+v at [%v.%v]: %v",
+			model, db.database.Name, db.collection.Name, errInsert)
+		return "", errors.Wrap(err, prefix+": Store")
 	}
 
 	log.Debugf("Successfully stored model [%+v]", model)
@@ -88,13 +93,14 @@ func (db *DB) Close() {
 func (db *DB) Drop(shouldDrop bool) error {
 	databases, err := db.Session.DatabaseNames()
 	if err != nil {
-		log.Errorf("DropDatabase: Failed to get list of all databases: %v", err)
-		return errors.Wrap(err, "Failed to get list of all databases")
+		err = fmt.Errorf("failed to get list of all databases: %v", err)
+		return errors.Wrap(err, prefix+": Drop")
 	}
 	for _, c := range databases {
 		if c == db.database.Name {
-			if errDrop := db.database.DropDatabase(); errDrop != nil {
-				return errors.Wrap(errDrop, "Failed to drop the database [%s]")
+			if err = db.database.DropDatabase(); err != nil {
+				err = fmt.Errorf("failed to drop the database [%s]: %v", db.database.Name, err)
+				return errors.Wrap(err, prefix+": Drop")
 			}
 			break
 		}

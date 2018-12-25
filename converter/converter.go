@@ -7,9 +7,10 @@ import (
 	"time"
 
 	"github.com/hpcloud/tail"
-	logModel "github.com/oleg-balunenko/logs-converter/model"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
+
+	logModel "github.com/oleg-balunenko/logs-converter/model"
 )
 
 // Start starts converting of logfile
