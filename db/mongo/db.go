@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/oleg-balunenko/logs-converter/model"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+
+	"github.com/oleg-balunenko/logs-converter/model"
 )
 
 // DB stores mongo db connection details
