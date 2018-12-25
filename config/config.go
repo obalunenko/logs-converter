@@ -12,17 +12,19 @@ import (
 
 // Config stores configuration of service
 type Config struct {
-	LogsFilesListJSON string            `required:"true"` // (example: '{"/log1.txt":"first_format ", "/dir/log2.log":"second_format "}'
-	LogLevel          string            `default:"Info"`  // tool's logs level in stdout
-	logsFilesList     map[string]string // LogsFilesList store unmarshalled json  LogsFilesListJSON
-	DBURL             string            `required:"true"` // Database URL
-	DBUsername        string            `default:""`      // Database Username
-	DBPassword        string            `default:""`      // DBPassword
-	DBName            string            `default:"myDB"`  // DB name
-	MongoCollection   string            `default:"logs"`  // Mongo DB collection
-	DropDB            bool              `default:"false"` // if true - will dorp whole collection
-	FollowFiles       bool              `default:"true"`  // if true - will tail file and wait for updates
-	FilesMustExist    bool              `default:"true"`  // if true - will throw error when file is not exist; when false - wait for file create
+	LogsFilesListJSON string `required:"true"` // (example: '{"/log1.txt":"first_format ",
+	// "/dir/log2.log":"second_format "}'
+	LogLevel        string            `default:"Info"` // tool's logs level in stdout
+	logsFilesList   map[string]string // LogsFilesList store unmarshalled json  LogsFilesListJSON
+	DBURL           string            `required:"true"` // Database URL
+	DBUsername      string            `default:""`      // Database Username
+	DBPassword      string            `default:""`      // DBPassword
+	DBName          string            `default:"myDB"`  // DB name
+	MongoCollection string            `default:"logs"`  // Mongo DB collection
+	DropDB          bool              `default:"false"` // if true - will dorp whole collection
+	FollowFiles     bool              `default:"true"`  // if true - will tail file and wait for updates
+	FilesMustExist  bool              `default:"true"`  // if true - will throw error when file is not exist;
+	// when false - wait for file create
 
 }
 
@@ -102,7 +104,8 @@ func parseLogsFilesList(filesListJSON string) (map[string]string, error) {
 
 	errUnMarshal := json.Unmarshal([]byte(filesListJSON), &filesList)
 	if errUnMarshal != nil {
-		return nil, fmt.Errorf("failed to unmarshal json with files [%s] to struct: %v", filesListJSON, errUnMarshal)
+		return nil, fmt.Errorf("failed to unmarshal json with files [%s] to struct: %v",
+			filesListJSON, errUnMarshal)
 	}
 	return filesList, nil
 
@@ -117,7 +120,8 @@ func newConfig(path string, prefix string, camelCase bool) *multiconfig.DefaultL
 
 	if path != "" {
 		if _, err := os.Stat(path); os.IsNotExist(err) {
-			log.Warnf("Provided local config file [%s] does not exist. Flags and Environment variables will be used ", path)
+			log.Warnf("Provided local config file [%s] does not exist. Flags and "+
+				"Environment variables will be used ", path)
 		} else {
 			log.Infof("Local config file [%s] will be used", path)
 			// Choose what while is passed

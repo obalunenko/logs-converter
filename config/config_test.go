@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func testConfigCreate(t *testing.T, configPath string, logsFilesListJSON string, logLevel string, mongoURL string, mongoDB string,
-	mongoCollection string, dropDB bool) error {
+func testConfigCreate(t *testing.T, configPath string, logsFilesListJSON string, logLevel string,
+	mongoURL string, mongoDB string, mongoCollection string, dropDB bool) error {
 
 	fmt.Println("Helper func in action")
 	if err := os.MkdirAll(filepath.Dir(configPath), 0700); err != nil {
@@ -79,30 +79,33 @@ func TestLoadConfig(t *testing.T) {
 			id:          1,
 			description: `Check configuration loading from cofig file`,
 			input: input{
-				logsFilesListJSON: `{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}`,
-				logLevel:          "Info",
-				DBURL:             "localhost:27017",
-				DBUsername:        "",
-				DBPassword:        "",
-				DBName:            "myDB",
-				mongoCollection:   "logs",
-				dropDB:            true,
-				followFiles:       true,
-				fileMustExist:     true,
+				logsFilesListJSON: `{"testdata/testfile1.log":"second_format",
+"testdata/dir1/testfile2.log":"first_format"}`,
+				logLevel:        "Info",
+				DBURL:           "localhost:27017",
+				DBUsername:      "",
+				DBPassword:      "",
+				DBName:          "myDB",
+				mongoCollection: "logs",
+				dropDB:          true,
+				followFiles:     true,
+				fileMustExist:   true,
 			},
 			expectedResult: expectedResult{
 				wantConfig: &Config{
-					LogsFilesListJSON: `{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}`,
-					LogLevel:          "Info",
-					DBURL:             "localhost:27017",
-					DBUsername:        "",
-					DBPassword:        "",
-					DBName:            "myDB",
-					MongoCollection:   "logs",
-					DropDB:            true,
-					logsFilesList:     map[string]string{"testdata/testfile1.log": "second_format", "testdata/dir1/testfile2.log": "first_format"},
-					FilesMustExist:    true,
-					FollowFiles:       true,
+					LogsFilesListJSON: `{"testdata/testfile1.log":"second_format",
+"testdata/dir1/testfile2.log":"first_format"}`,
+					LogLevel:        "Info",
+					DBURL:           "localhost:27017",
+					DBUsername:      "",
+					DBPassword:      "",
+					DBName:          "myDB",
+					MongoCollection: "logs",
+					DropDB:          true,
+					logsFilesList: map[string]string{"testdata/testfile1.log": "second_format",
+						"testdata/dir1/testfile2.log": "first_format"},
+					FilesMustExist: true,
+					FollowFiles:    true,
 				},
 				wantErr: false,
 			},
@@ -111,14 +114,15 @@ func TestLoadConfig(t *testing.T) {
 			id:          2,
 			description: `Broken config: incorrect json with files`,
 			input: input{
-				logsFilesListJSON: `{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format`,
-				logLevel:          "Debug",
-				DBURL:             "localhost:29800",
-				DBUsername:        "",
-				DBPassword:        "",
-				DBName:            "myDB1",
-				mongoCollection:   "logs1",
-				dropDB:            true,
+				logsFilesListJSON: `{"testdata/testfile1.log":"second_format",
+"testdata/dir1/testfile2.log":"first_format`,
+				logLevel:        "Debug",
+				DBURL:           "localhost:29800",
+				DBUsername:      "",
+				DBPassword:      "",
+				DBName:          "myDB1",
+				mongoCollection: "logs1",
+				dropDB:          true,
 			},
 			expectedResult: expectedResult{
 				wantConfig: nil,
@@ -152,10 +156,13 @@ func TestLoadConfig(t *testing.T) {
 	configPath := filepath.Join(currentDir, "testdata", "config.toml")
 
 	for _, tc := range tests {
+		tc := tc
 
 		t.Run(fmt.Sprintf("Test%d:%s", tc.id, tc.description), func(t *testing.T) {
 
-			err = testConfigCreate(t, configPath, tc.input.logsFilesListJSON, tc.input.logLevel, tc.input.DBURL, tc.input.DBName, tc.input.mongoCollection, tc.input.dropDB)
+			err = testConfigCreate(t, configPath, tc.input.logsFilesListJSON, tc.input.logLevel, tc.input.DBURL,
+				tc.input.DBName, tc.input.mongoCollection, tc.input.dropDB)
+
 			if err != nil {
 				t.Fatalf("Error while creating test config: %v", err)
 			}
