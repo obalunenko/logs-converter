@@ -8,11 +8,12 @@ import (
 	"syscall"
 	"text/tabwriter"
 
+	log "github.com/sirupsen/logrus"
+
 	"github.com/oleg-balunenko/logs-converter/config"
 	"github.com/oleg-balunenko/logs-converter/converter"
 	"github.com/oleg-balunenko/logs-converter/db"
 	"github.com/oleg-balunenko/logs-converter/model"
-	log "github.com/sirupsen/logrus"
 )
 
 var (

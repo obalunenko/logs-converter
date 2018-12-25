@@ -5,8 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oleg-balunenko/logs-converter/model"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/oleg-balunenko/logs-converter/model"
 )
 
 func Test_processLine(t *testing.T) {
