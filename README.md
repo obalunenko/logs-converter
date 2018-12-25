@@ -24,6 +24,7 @@ on their basis insert MongoDB documents with a monotonous structure.
 - cd to repo root
 - execute command
 
+
   ```bash
   docker-compose up
   ```
@@ -31,14 +32,16 @@ on their basis insert MongoDB documents with a monotonous structure.
 - download executable from latest relases [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
 - fill all flags from _Configuration_ part or run application with flag -h to see full help info
 
+
   ```bash
   ./logs-converter -h
   ```
 
-### Alternative way:
+### Alternative way
 
 1. Install Mongo (oficial installation guides: <https://docs.mongodb.com/manual/installation/)>
 2. Run mongo
+
 
    ```bash
      mongod
@@ -47,6 +50,7 @@ on their basis insert MongoDB documents with a monotonous structure.
 3. Update `config.toml` file in the root of repository with actual parameters and save it (see Configuration)
 4. a) From root of repository run
 
+
    ```bash
      go build
    ```
@@ -54,6 +58,7 @@ on their basis insert MongoDB documents with a monotonous structure.
    b) Download latest artifacts [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
 
 5. Run tool
+
 
    ```bash
      ./logs-converter
