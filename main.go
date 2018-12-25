@@ -101,7 +101,9 @@ func main() {
 
 }
 
-func startJobs(files map[string]string, filesmustExist bool, followFiles bool, group *sync.WaitGroup, resChan chan *model.LogModel, errorsChan chan error) {
+func startJobs(files map[string]string, filesmustExist bool, followFiles bool, group *sync.WaitGroup,
+	resChan chan *model.LogModel, errorsChan chan error) {
+
 	for l, format := range files {
 		group.Add(1)
 		go converter.Start(l, format, filesmustExist, followFiles, resChan, errorsChan, group)
