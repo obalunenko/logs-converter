@@ -6,6 +6,7 @@
    <a href="https://codebeat.co/projects/github-com-oleg-balunenko-logs-converter-master"><img alt="codebeat badge" src="https://codebeat.co/badges/f8911e31-4de9-4444-a1ff-9063a272e897" /></a>  
   <a href="https://sonarcloud.io/dashboard?id=logs-converter"><img src="https://sonarcloud.io/api/project_badges/measure?project=logs-converter&metric=alert_status" alt="Quality Gate Status"></img></a>
   <a href="https://www.codefactor.io/repository/github/oleg-balunenko/logs-converter"><img src= "https://www.codefactor.io/repository/github/oleg-balunenko/logs-converter/badge" alt="CodeFactor"></img> </a>
+  <a href="https://app.codacy.com/app/oleg.balunenko/logs-converter?utm_source=github.com&utm_medium=referral&utm_content=oleg-balunenko/logs-converter&utm_campaign=Badge_Grade_Dashboard"><img src="https://api.codacy.com/project/badge/Grade/d0577205bbf648efaa3385369447923d" alt="Codacity code quality"></img></a>
    <a href="https://github.com/oleg-balunenko/logs-converter/releases/latest"><img src="https://img.shields.io/badge/artifacts-download-blue.svg" alt ="Latest release artifacts"></img></a>
 </p>
 
@@ -34,7 +35,7 @@ on their basis insert MongoDB documents with a monotonous structure.
       
       ```
       
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d0577205bbf648efaa3385369447923d)](https://app.codacy.com/app/oleg.balunenko/logs-converter?utm_source=github.com&utm_medium=referral&utm_content=oleg-balunenko/logs-converter&utm_campaign=Badge_Grade_Dashboard)
+
     6. download executable from latest relases [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
 
     7. fill all flags from _Configuration_ part or run application with flag -h to see full help info
