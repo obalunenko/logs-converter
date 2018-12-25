@@ -171,6 +171,7 @@ func Test_processLine(t *testing.T) {
 	}
 
 	for _, tc := range tests {
+		tc := tc
 		t.Run(fmt.Sprintf("Test%d:%s", tc.id, tc.description), func(t *testing.T) {
 			gotModel, err := processLine(tc.input.logName, tc.input.line, tc.input.format, tc.input.lineNumber)
 
