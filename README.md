@@ -15,51 +15,56 @@ The converter will parse files with different log formats and according
 on their basis insert MongoDB documents with a monotonous structure.
 
 ## How to run it
-Use docker and docker-compose! (the easiest way:) )
+
+### Use docker and docker-compose! (the easiest way:) )
+
 - install docker https://www.docker.com/products/docker-desktop
 - run docker
 - clone repo
 - cd to repo root
-- execute command 
+- execute command
 
-    ```bash
-    docker-compose up
-    ```
+  ```bash
+  docker-compose up
+  ```
+
 - download executable from latest relases [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
-- fill all flags from *Configuration* part or run application with flag -h to see full help info
+- fill all flags from _Configuration_ part or run application with flag -h to see full help info
 
-    ```bash
-    ./logs-converter -h
-    ```
+  ```bash
+  ./logs-converter -h
+  ```
 
-Alternative way:
+### Alternative way:
+
 1. Install Mongo (oficial installation guides: <https://docs.mongodb.com/manual/installation/)>
 2. Run mongo
 
-    ```bash
-      mongod
-    ```
+   ```bash
+     mongod
+   ```
 
 3. Update `config.toml` file in the root of repository with actual parameters and save it (see Configuration)
 4. a) From root of repository run
 
-    ```bash
-      go build
-    ```
-    b) Download latest artifacts [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
+   ```bash
+     go build
+   ```
+
+   b) Download latest artifacts [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
 
 5. Run tool
 
-    ```bash
-      ./logs-converter
-    ```
+   ```bash
+     ./logs-converter
+   ```
 
 ## Configuration
 
 Tool could be configured in 3 ways:
 *run with flags
 *config file
-*einvironment variables
+\*einvironment variables
 
 ### Flags
 
@@ -105,8 +110,8 @@ Tool could be configured in 3 ways:
 - **DBUsername** - Mongo DB Username
 - **DBPassword** - Mongo DB password
 - **DropDB** - if true - will drop whole collection before starting to store all logs
-- **FilesMustExist*** - if true - will throw error when file is not exist; when false - wait for file create
-- **FollowFiles*** - if true - will tail file and wait for updates; when false - end file reading after EOF
+- **FilesMustExist\*** - if true - will throw error when file is not exist; when false - wait for file create
+- **FollowFiles\*** - if true - will tail file and wait for updates; when false - end file reading after EOF
 
 example of `config.toml`:
 
@@ -139,6 +144,6 @@ example:
     export LOGSCONVERTER_FOLLOW_FILES=true
     export LOGSCONVERTER_LOG_LEVEL="Info"
     export LOGSCONVERTER_LOGS_FILES_LIST_JSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
-    export LOGSCONVERTER_MONGO_COLLECTION="logs"  
-    
+    export LOGSCONVERTER_MONGO_COLLECTION="logs"
+
 ```
