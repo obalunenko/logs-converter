@@ -1,4 +1,4 @@
-<p align="center"> <img src="docs/assets/projectavatar.png" width="360"></p> 
+<p align="center"> <img src="docs/assets/projectavatar.png" width="360"></p>
 <p align="center"> <a href="https://travis-ci.org/oleg-balunenko/logs-converter"> <img src="https://travis-ci.org/oleg-balunenko/logs-converter.svg?branch=master" alt="Build Status"></img></a>
  <a href="https://goreportcard.com/report/github.com/oleg-balunenko/logs-converter"><img src="https://goreportcard.com/badge/github.com/oleg-balunenko/logs-converter" alt="Go Report Card"></img></a>
    <a href="https://coveralls.io/github/oleg-balunenko/logs-converter?branch=master"><img src="https://coveralls.io/repos/github/oleg-balunenko/logs-converter/badge.svg?branch=master" alt="Coverage Status"></img></a>
@@ -18,12 +18,11 @@ on their basis insert MongoDB documents with a monotonous structure.
 
 ### Use docker and docker-compose! (the easiest way:) )
 
-- install docker https://www.docker.com/products/docker-desktop
+- install docker <https://www.docker.com/products/docker-desktop>
 - run docker
 - clone repo
 - cd to repo root
 - execute command
-
 
   ```bash
   docker-compose up
@@ -31,7 +30,6 @@ on their basis insert MongoDB documents with a monotonous structure.
 
 - download executable from latest relases [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
 - fill all flags from _Configuration_ part or run application with flag -h to see full help info
-
 
   ```bash
   ./logs-converter -h
@@ -42,14 +40,12 @@ on their basis insert MongoDB documents with a monotonous structure.
 1. Install Mongo (oficial installation guides: <https://docs.mongodb.com/manual/installation/)>
 2. Run mongo
 
-
    ```bash
      mongod
    ```
 
 3. Update `config.toml` file in the root of repository with actual parameters and save it (see Configuration)
 4. a) From root of repository run
-
 
    ```bash
      go build
@@ -58,7 +54,6 @@ on their basis insert MongoDB documents with a monotonous structure.
    b) Download latest artifacts [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
 
 5. Run tool
-
 
    ```bash
      ./logs-converter
