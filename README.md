@@ -112,7 +112,7 @@ Tool could be configured in 3 ways:
   - **DropDB** - if true - will drop whole collection before starting to store all logs
   - **FilesMustExist** - if true - will throw error when file is not exist; when false - wait for file create
   - **FollowFiles** - if true - will tail file and wait for updates; when false - end file reading after EOF
-c
+
 example of `config.toml`:
 
 ```toml
