@@ -17,13 +17,13 @@ import (
 
 var (
 	version string
-	build   string
+	date    string
 	commit  string
 )
 
 func main() {
-	fmt.Printf("Version info: %s:%s", version, build)
-	fmt.Printf("commit: %s ", commit)
+	fmt.Printf("Version info: %s:%s\n", version, date)
+	fmt.Printf("commit: %s \n", commit)
 
 	cfg, errLoadCfg := config.LoadConfig("config.toml")
 	if errLoadCfg != nil {
