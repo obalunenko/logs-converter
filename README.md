@@ -83,15 +83,15 @@ Tool could be configured in 3 ways:
 
 ### Flags
 
-    ```text
-        -dropdb
-            if true - will drop whole collection before starting to store all logs (default true)
-        -log-level
-            LogLevel level: All, Debug, Info, Error, Fatal, Panic, Warn (default Debug)
-        -logsfileslist
-             (default map[])
-        -logs-files-list-json
-            JSON with list of all files that need to be looked at and converted
+        ```text
+            -dropdb
+                if true - will drop whole collection before starting to store all logs (default true)
+            -log-level
+                LogLevel level: All, Debug, Info, Error, Fatal, Panic, Warn (default Debug)
+            -logsfileslist
+                 (default map[])
+            -logs-files-list-json
+                JSON with list of all files that need to be looked at and converted
                                                 example of JSON:
                                                         {
                                                                 "/log1.txt":"first_format",
@@ -99,21 +99,21 @@ Tool could be configured in 3 ways:
                                                                 "/dir2/log3.txt":"first_format"
                                                         }
                                  (default {"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"})
-        -mongo-collection
-            Mongo DB collection (default logs)
-        -db-name
-            Mongo DB name (default myDB)
-        -db-password
-            MongoDB Password
-        -dburl
-            DB URL (default localhost:27017)
-        -db-username
-            MongoDB Username
-        -files-must-exist
-            if true - will throw error when file is not exist; when false - wait for file create (default: true)
-        -follow-files
-            if true - will tail file and wait for updates; when false - end file reading after EOF (defaultL true)     
-    ```
+            -mongo-collection
+                Mongo DB collection (default logs)
+            -db-name
+                Mongo DB name (default myDB)
+            -db-password
+                MongoDB Password
+            -dburl
+                DB URL (default localhost:27017)
+            -db-username
+                MongoDB Username
+            -files-must-exist
+                if true - will throw error when file is not exist; when false - wait for file create (default: true)
+            -follow-files
+                if true - will tail file and wait for updates; when false - end file reading after EOF (defaultL true)     
+        ```
 
 ### TOML`config.toml` update following parameters to what you need
 
@@ -130,18 +130,18 @@ Tool could be configured in 3 ways:
 
 example of `config.toml`:
 
-    ```toml
-        LogLevel="Debug"
-        LogsFilesListJSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
-        DBURL="localhost:27017"
-        DBName="myDB"
-        MongoCollection="logs"
-        DBUsername=""
-        DBPassword=""
-        DropDB=true
-        FilesMustExist=true
-        FollowFiles=true
-    ```
+        ```toml
+            LogLevel="Debug"
+            LogsFilesListJSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
+            DBURL="localhost:27017"
+            DBName="myDB"
+            MongoCollection="logs"
+            DBUsername=""
+            DBPassword=""
+            DropDB=true
+            FilesMustExist=true
+            FollowFiles=true
+        ```
 
 ### environment variables
 
@@ -149,15 +149,15 @@ export following environment variables with your values
 
 example:
 
-    ```bash
-        export LOGSCONVERTER_DB_NAME="myDB"
-        export LOGSCONVERTER_DB_PASSWORD=""
-        export LOGSCONVERTER_DBURL="localhost:27017"
-        export LOGSCONVERTER_DB_USERNAME=""
-        export LOGSCONVERTER_DROP_DB=false
-        export LOGSCONVERTER_FILES_MUST_EXIST=false
-        export LOGSCONVERTER_FOLLOW_FILES=true
-        export LOGSCONVERTER_LOG_LEVEL="Info"
-        export LOGSCONVERTER_LOGS_FILES_LIST_JSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
-        export LOGSCONVERTER_MONGO_COLLECTION="logs"
-    ```
+        ```bash
+            export LOGSCONVERTER_DB_NAME="myDB"
+            export LOGSCONVERTER_DB_PASSWORD=""
+            export LOGSCONVERTER_DBURL="localhost:27017"
+            export LOGSCONVERTER_DB_USERNAME=""
+            export LOGSCONVERTER_DROP_DB=false
+            export LOGSCONVERTER_FILES_MUST_EXIST=false
+            export LOGSCONVERTER_FOLLOW_FILES=true
+            export LOGSCONVERTER_LOG_LEVEL="Info"
+            export LOGSCONVERTER_LOGS_FILES_LIST_JSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
+            export LOGSCONVERTER_MONGO_COLLECTION="logs"
+        ```
