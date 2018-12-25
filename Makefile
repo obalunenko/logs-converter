@@ -1,4 +1,4 @@
-NAME=logs-converter
+NAME=simple-chat
 BIN_DIR=./bin
 
 # COLORS
@@ -9,8 +9,15 @@ RESET  := $(shell tput -Txterm sgr0)
 
 
 TARGET_MAX_CHAR_NUM=20
+
+
+define colored
+	@echo '${GREEN}$1${RESET}'
+endef
+
 ## Show help
 help:
+	${call colored, help is running...}
 	@echo ''
 	@echo 'Usage:'
 	@echo '  ${YELLOW}make${RESET} ${GREEN}<target>${RESET}'
@@ -26,36 +33,55 @@ help:
 	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
-default: dev
-
 ## dependensies - fetch all dependencies for sripts
-dependensies:
+dependencies:
+	${call colored, dependensies is running...}
 	./scripts/get-dependencies.sh
 
 ## Dev mode - go run
 dev:
+	${call colored, dev is running...}
 	docker-compose up&
 	go run main.go
+.PHONY: dev
 
 ## Compile binary
 compile:
-	./scripts/run-build.sh
+	${call colored, compile is running...}
+	./scripts/compile.sh
+.PHONY: compile
 
 ## lint project
 lint:
+	${call colored, lint is running...}
 	./scripts/linters.sh
+.PHONY: lint
 
 ## Test all packages
 test:
+	${call colored, test is running...}
 	./scripts/tests.sh
+.PHONY: test
 
 ## Test coverage
 test-cover:
+	${call colored, test-cover is running...}
 	go test -race -coverpkg=./... -v -coverprofile .testCoverage.out ./...
 	gocov convert .testCoverage.out | gocov report
+.PHONY: test-cover
+
+new-version:
+	${call colored, new version is running...}
+	./scripts/version.sh
+.PHONY: new-version
+
 
 ## Release
-release: dependensies lint test test-cover compile
+release:
+	${call colored, release is running...}
+	./scripts/release.sh
+.PHONY: release
 
+.DEFAULT_GOAL := test
 
 
