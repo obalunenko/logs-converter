@@ -9,7 +9,7 @@ require (
 	github.com/koding/multiconfig v0.0.0-20171124222453-69c27309b2d7
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/pkg/errors v0.8.1
-	github.com/sirupsen/logrus v1.4.0
+	github.com/sirupsen/logrus v1.4.1
 	github.com/stretchr/testify v1.3.0
 	golang.org/x/sys v0.0.0-20180907202204-917fdcba135d // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
