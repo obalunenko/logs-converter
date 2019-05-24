@@ -7,9 +7,9 @@
 [![codebeat badge](https://codebeat.co/badges/f8911e31-4de9-4444-a1ff-9063a272e897)](https://codebeat.co/projects/github-com-oleg-balunenko-logs-converter-master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=logs-converter&metric=alert_status)](https://sonarcloud.io/dashboard?id=logs-converter)
 [![CodeFactor](https://www.codefactor.io/repository/github/oleg-balunenko/logs-converter/badge)](https://www.codefactor.io/repository/github/oleg-balunenko/logs-converter)
-[![Codacity code quality](https://api.codacy.com/project/badge/Grade/d0577205bbf648efaa3385369447923d)](https://app.codacy.com/app/oleg.balunenko/logs-converter?utm_source=github.com&utm_medium=referral&utm_content=oleg-balunenko/logs-converter&utm_campaign=Badge_Grade_Dashboard)
-[![Latest release artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d0577205bbf648efaa3385369447923d)](https://app.codacy.com/app/oleg.balunenko/logs-converter?utm_source=github.com&utm_medium=referral&utm_content=oleg-balunenko/logs-converter&utm_campaign=Badge_Grade_Settings)
+[![Latest release artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
+
 
 # logs-converter
 
