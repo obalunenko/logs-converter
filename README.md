@@ -1,4 +1,5 @@
-<p align="center"> <img src="docs/assets/projectavatar.png" width="360"></p>
+<p align="center"><img src="https://github.com/oleg-balunenko/logs-converter/blob/master/docs/assets/projectavatar.png" width="360"></p>
+
 [![Build Status](https://travis-ci.org/oleg-balunenko/logs-converter.svg?branch=master)](https://travis-ci.org/oleg-balunenko/logs-converter)
 [![Go Report Card](https://goreportcard.com/badge/github.com/oleg-balunenko/logs-converter)](https://goreportcard.com/report/github.com/oleg-balunenko/logs-converter)
 [![Coverage Status](https://coveralls.io/repos/github/oleg-balunenko/logs-converter/badge.svg?branch=master)](https://coveralls.io/github/oleg-balunenko/logs-converter?branch=master)
