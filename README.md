@@ -36,6 +36,7 @@ on their basis insert MongoDB documents with a monotonous structure.
       ```
       
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d0577205bbf648efaa3385369447923d)](https://app.codacy.com/app/oleg.balunenko/logs-converter?utm_source=github.com&utm_medium=referral&utm_content=oleg-balunenko/logs-converter&utm_campaign=Badge_Grade_Settings)
     6. download executable from latest relases [![artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
 
     7. fill all flags from _Configuration_ part or run application with flag -h to see full help info
