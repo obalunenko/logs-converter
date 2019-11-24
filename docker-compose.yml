@@ -13,6 +13,3 @@ services:
       MYSQL_ROOT_PASSWORD: "test_pass" # TODO: Change this
       MYSQL_USER: "test"
       MYSQL_PASS: "pass"
-    volumes:
-      - my-datavolume:/var/lib/mysql
-  volumes: my-datavolume:
