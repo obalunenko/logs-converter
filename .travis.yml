@@ -12,48 +12,31 @@ env:
   - secure: us1+zKbXue9MPCK15k5f83ivgBcnJVBWeDtqVK2zQPFcaue9Vn90uuky27V5z4Lfs0QyhYs1ex0aiow/ANdGaqUIH00ZHXQ6aREQeUwI2O0ynZ4b/7CjSLKcWIbtXkHFmLk/s9AfAa+2vrZk4Upf4FaVrhY4kpjXg/jtKtmU/Q0hGvS8qVrIgHoF8DnLRFRwJ5i8o0W6eEpkh4Fj8mM56v0bBxpFNpc4d7wT0BeLP1ut4jVWVokf6SShptPCJYW/3XfWskQvf1FrTC2VuoKTIpZh7K5RFqsYB8EOoIITGu3pVPCqfU+PiELl2cegYpttZvIG/6/0G3krgR2S734s/YA8vCVJ0tFmnKjJF6dfkCy63/I5wtNjOCgYx7xowqKditqOfC9Opkv+H2H/+aDng/dddnKbDREQTfYq5WOcV5ky8uQ40KtQ2wmfJEgJKronkH186wXMpJaAggvWtVARh1y94Nr+vl9jSP7afP/VHfpm88YFELUqqvWouvoEyMrT/Vhq+CEL/jncw29ic5VJ+4q8KslEVzDroGjPTpbY2k+YjSjaeM9LVigKR7gkjCZYJI9bKgAnfXwg/VlWq09HfrvEhyIrlJB0f66ORIZPPGzIa/BcRGlvTNap9AuMqZ06lNsjVjLW0kZjmxLBCKirOGZDURmeLU6aebxVOj6LEdE=
 jobs:
   include:
-    - stage: Unit Tests
+    - stage: Unit Tests, Metalinter, Sonar
       go:
-        - 1.11.x
+        - 1.13.x
       os:
         - linux
       install:
-        - env GO111MODULE=off
         - make dependencies
       script:
         - echo "Run unit tests..."
-        - env GO111MODULE=on
-        - make test
-        - goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+        - go test -v -race -coverpkg=./... -covermode=atomic -coverprofile=coverage.out -json ./... > tests.out
+        - make lint-ci
+        - goveralls -coverprofile=coverage.out -service=travis-ci -repotoken ${COVERALLS_TOKEN}
+        - sonar-scanner -Dsonar.projectVersion=${TRAVIS_TAG}
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
-    - stage: Metalinter analysis
-      go:
-        - 1.11.x
-      os:
-        - linux
-      install:
-        - env GO111MODULE=off
-        - make dependencies
-      script:
-        - env GO111MODULE=off
-        - make lint
-    - stage: Sonar Scanner
-      addons:
-        sonarcloud:
-          organization: oleg-balunenko-github
-          token: "$SONAR_TOKEN"
-      script:
-        - sonar-scanner -Dsonar.projectVersion=${TRAVIS_TAG}
-
     - stage: Build Application
       go:
-        - 1.11.x
+        - 1.13.x
       os:
         - linux
       go_import_path: github.com/oleg-balunenko/logs-converter
       script:
+        - export GOVERSION=$(go version | awk '{print $3;}')
+        - echo "GOVERSION=${GOVERSION}"
         - echo "Build stage"
         - make compile
       after_success:
@@ -63,6 +46,6 @@ jobs:
         script: make release
         on:
           tags: true
-          condition: $TRAVIS_OS_NAME = linux
+          condition: "$TRAVIS_OS_NAME = linux"
       addons:
       ssh_known_hosts: github.com
