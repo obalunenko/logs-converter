@@ -49,6 +49,6 @@ func Connect(dbType StorageType, params Params) (Repository, error) {
 	case StorageTypeMongo:
 		return newMongoDBConnection(params.URL, params.DB, params.Collection, params.Username, params.Password)
 	default:
-		return nil, errors.Errorf("not supported database type [%s]", dbType)
+		return nil, errors.Errorf("not supported database type [%s]", dbType.String())
 	}
 }
