@@ -1,3 +1,4 @@
+// Package mongo implements mongo db interactions functionality.
 package mongo
 
 import (
@@ -11,19 +12,19 @@ import (
 	"github.com/oleg-balunenko/logs-converter/internal/models"
 )
 
-// DB stores mongo db connection details
-type DB struct {
-	Session    *mgo.Session
+// db stores mongo db connection details
+type db struct {
+	session    *mgo.Session
 	database   *mgo.Database
 	collection *mgo.Collection
 }
 
 // NewMongoDBConnection establishes connection with mongoDB and return DBName object
-func NewMongoDBConnection(url, dbName, collectionName, username, password string) (*DB, error) {
+func NewMongoDBConnection(url, dbName, collectionName, username, password string) (*db, error) {
 	return newConnection(url, dbName, collectionName, username, password)
 }
 
-func newConnection(url, dbName, collectionName, username, password string) (*DB, error) {
+func newConnection(url, dbName, collectionName, username, password string) (*db, error) {
 	mongoDBDialInfo := &mgo.DialInfo{
 		Addrs:    []string{url},
 		Timeout:  60 * time.Second,
@@ -40,8 +41,8 @@ func newConnection(url, dbName, collectionName, username, password string) (*DB,
 	database := session.DB(dbName)
 	collection := database.C(collectionName)
 
-	return &DB{
-		Session:    session,
+	return &db{
+		session:    session,
 		database:   database,
 		collection: collection,
 	}, nil
@@ -49,7 +50,7 @@ func newConnection(url, dbName, collectionName, username, password string) (*DB,
 
 // Store stores model in database with unique id
 // return id and error
-func (db *DB) Store(model *models.LogModel) (string, error) {
+func (db *db) Store(model *models.LogModel) (string, error) {
 	log.Debugf("Storing model [%+v] to collection [%+v]", model, db.collection)
 
 	id := bson.NewObjectId().Hex()
@@ -65,24 +66,28 @@ func (db *DB) Store(model *models.LogModel) (string, error) {
 }
 
 // Delete deletes model from db by id
-func (db *DB) Delete(id string) error {
-	panic("implement me")
+func (db *db) Delete(id string) error {
+	return db.collection.RemoveId(id)
 }
 
 // Update updates existed model by id
-func (db *DB) Update(id string, logModel models.LogModel) error {
-	panic("implement me")
+func (db *db) Update(id string, logModel models.LogModel) error {
+	return db.collection.UpdateId(id, logModel)
 }
 
 // Close closes mongo connection
-func (db *DB) Close() {
+func (db *db) Close() {
 	log.Infof("Closing connection...")
-	db.Session.Close()
+	db.session.Close()
 }
 
 // Drop drops database collection
-func (db *DB) Drop(shouldDrop bool) error {
-	databases, err := db.Session.DatabaseNames()
+func (db *db) Drop(shouldDrop bool) error {
+	if !shouldDrop {
+		return nil
+	}
+
+	databases, err := db.session.DatabaseNames()
 	if err != nil {
 		return errors.Wrap(err, "failed to list databases")
 	}

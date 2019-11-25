@@ -1,3 +1,4 @@
+// Package converter provides functionality for processing logs.
 package converter
 
 // Constants for format detector

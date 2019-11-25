@@ -1,3 +1,4 @@
+// Package converter provides functionality for processing logs.
 package converter
 
 import (
@@ -63,12 +64,10 @@ func processLine(logName string, line string, format string, lineNumber uint64) 
 		return nil, err
 	}
 
-	var msg string
+	msg := lineElements[1]
 	// For case when log message contain additional " | " to not miss other part of message
 	if len(lineElements) > 2 {
 		msg = strings.Join(lineElements[1:], " | ")
-	} else {
-		msg = lineElements[1]
 	}
 
 	md := &models.LogModel{
@@ -83,25 +82,22 @@ func processLine(logName string, line string, format string, lineNumber uint64) 
 
 // parseTime parses logTime string as format that was passed and return time.Time representation of it
 func parseTime(logTimeStr string, format string) (time.Time, error) {
+	var layout string
+
 	switch format {
 	case firstFormat:
-		logTime, errParse := time.Parse(firstFormatLayout, logTimeStr)
-		if errParse != nil {
-			log.Errorf("parseTime: failed to parse logTime [%s] as format [%s]: %v", logTimeStr, format, errParse)
-			return time.Time{}, fmt.Errorf("failed to parse logTime [%s] as format [%s]: %v", logTimeStr, format, errParse)
-		}
-
-		return logTime, nil
+		layout = firstFormatLayout
 	case secondFormat:
-		logTime, errParse := time.Parse(secondFormatLayout, logTimeStr)
-		if errParse != nil {
-			log.Errorf("parseTime: failed to parse logTime [%s] as format [%s]: %v", logTimeStr, format, errParse)
-			return time.Time{}, fmt.Errorf("failed to parse logTime [%s] as format [%s]: %v", logTimeStr, format, errParse)
-		}
-
-		return logTime, nil
+		layout = secondFormatLayout
 	default:
-		log.Errorf("parseTime: unexpected time format received (%s)", logTimeStr)
-		return time.Time{}, fmt.Errorf("unexpected time format received (%s)", logTimeStr)
+		return time.Time{}, errors.Errorf("unexpected time format received (%s)", logTimeStr)
 	}
+
+	logTime, err := time.Parse(layout, logTimeStr)
+	if err != nil {
+		return time.Time{}, errors.Wrapf(err, "failed to parse logTime [%s] as format [%s]",
+			logTimeStr, format)
+	}
+
+	return logTime, nil
 }

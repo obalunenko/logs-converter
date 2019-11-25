@@ -1,3 +1,4 @@
+// Package db implements database interactions.
 package db
 
 import (
@@ -34,12 +35,20 @@ type Repository interface {
 	Close()
 }
 
+// Params is a database connection parameters.
+type Params struct {
+	URL        string
+	DB         string
+	Collection string
+	Username   string
+	Password   string
+}
+
 // Connect establish connection to passed database type
-func Connect(dbType StorageType, url string, dbName string, colletionName string, username string,
-	password string) (Repository, error) {
+func Connect(dbType StorageType, params Params) (Repository, error) {
 	switch dbType {
 	case StorageTypeMongo:
-		return mongo.NewMongoDBConnection(url, dbName, colletionName, username, password)
+		return mongo.NewMongoDBConnection(params.URL, params.DB, params.Collection, params.Username, params.Password)
 	default:
 		return nil, errors.Errorf("not supported database type [%s]", dbType)
 	}

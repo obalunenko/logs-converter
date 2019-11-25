@@ -29,7 +29,7 @@
     [rule.indent-error-flow]
     [rule.errorf]
     [rule.argument-limit]
-      arguments =[4]
+      arguments =[5]
 
     [rule.atomic]
     [rule.bare-return]
