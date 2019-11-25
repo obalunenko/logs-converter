@@ -1,5 +1,5 @@
-// Package mongo implements mongo db interactions functionality.
-package mongo
+// Package db implements database interactions.
+package db
 
 import (
 	"time"
@@ -12,19 +12,15 @@ import (
 	"github.com/oleg-balunenko/logs-converter/internal/models"
 )
 
-// db stores mongo db connection details
-type db struct {
+// mongoDB stores mongo mongoDB connection details
+type mongoDB struct {
 	session    *mgo.Session
 	database   *mgo.Database
 	collection *mgo.Collection
 }
 
-// NewMongoDBConnection establishes connection with mongoDB and return DBName object
-func NewMongoDBConnection(url, dbName, collectionName, username, password string) (*db, error) {
-	return newConnection(url, dbName, collectionName, username, password)
-}
-
-func newConnection(url, dbName, collectionName, username, password string) (*db, error) {
+// newMongoDBConnection establishes connection with mongoDB and return DBName object
+func newMongoDBConnection(url, dbName, collectionName, username, password string) (*mongoDB, error) {
 	mongoDBDialInfo := &mgo.DialInfo{
 		Addrs:    []string{url},
 		Timeout:  60 * time.Second,
@@ -41,7 +37,7 @@ func newConnection(url, dbName, collectionName, username, password string) (*db,
 	database := session.DB(dbName)
 	collection := database.C(collectionName)
 
-	return &db{
+	return &mongoDB{
 		session:    session,
 		database:   database,
 		collection: collection,
@@ -50,7 +46,7 @@ func newConnection(url, dbName, collectionName, username, password string) (*db,
 
 // Store stores model in database with unique id
 // return id and error
-func (db *db) Store(model *models.LogModel) (string, error) {
+func (db *mongoDB) Store(model *models.LogModel) (string, error) {
 	log.Debugf("Storing model [%+v] to collection [%+v]", model, db.collection)
 
 	id := bson.NewObjectId().Hex()
@@ -65,28 +61,24 @@ func (db *db) Store(model *models.LogModel) (string, error) {
 	return model.ID, nil
 }
 
-// Delete deletes model from db by id
-func (db *db) Delete(id string) error {
+// Delete deletes model from mongoDB by id
+func (db *mongoDB) Delete(id string) error {
 	return db.collection.RemoveId(id)
 }
 
 // Update updates existed model by id
-func (db *db) Update(id string, logModel models.LogModel) error {
+func (db *mongoDB) Update(id string, logModel models.LogModel) error {
 	return db.collection.UpdateId(id, logModel)
 }
 
 // Close closes mongo connection
-func (db *db) Close() {
+func (db *mongoDB) Close() {
 	log.Infof("Closing connection...")
 	db.session.Close()
 }
 
 // Drop drops database collection
-func (db *db) Drop(shouldDrop bool) error {
-	if !shouldDrop {
-		return nil
-	}
-
+func (db *mongoDB) Drop() error {
 	databases, err := db.session.DatabaseNames()
 	if err != nil {
 		return errors.Wrap(err, "failed to list databases")

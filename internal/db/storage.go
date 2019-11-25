@@ -4,7 +4,6 @@ package db
 import (
 	"github.com/pkg/errors"
 
-	"github.com/oleg-balunenko/logs-converter/internal/db/mongo"
 	"github.com/oleg-balunenko/logs-converter/internal/models"
 )
 
@@ -15,7 +14,7 @@ type StorageType uint
 const ( // database types
 	storageTypeUnknown StorageType = iota
 
-	// StorageTypeMongo - mongo db type
+	// StorageTypeMongo - mongo mongoDB type
 	StorageTypeMongo
 
 	storageTypeSentinel // should be always last
@@ -31,7 +30,7 @@ type Repository interface {
 	Store(logModel *models.LogModel) (string, error)
 	Update(id string, logModel models.LogModel) error
 	Delete(id string) error
-	Drop(bool) error
+	Drop() error
 	Close()
 }
 
@@ -48,7 +47,7 @@ type Params struct {
 func Connect(dbType StorageType, params Params) (Repository, error) {
 	switch dbType {
 	case StorageTypeMongo:
-		return mongo.NewMongoDBConnection(params.URL, params.DB, params.Collection, params.Username, params.Password)
+		return newMongoDBConnection(params.URL, params.DB, params.Collection, params.Username, params.Password)
 	default:
 		return nil, errors.Errorf("not supported database type [%s]", dbType)
 	}

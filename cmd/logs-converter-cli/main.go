@@ -37,8 +37,10 @@ func main() {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
 
-	if err := dbc.Drop(cfg.DropDB); err != nil {
-		log.Fatal(err)
+	if cfg.DropDB {
+		if err := dbc.Drop(); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	resChan := make(chan *models.LogModel)
