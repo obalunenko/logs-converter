@@ -1,4 +1,4 @@
-NAME=simple-chat
+NAME=logs-converter
 BIN_DIR=./bin
 
 # COLORS
@@ -33,41 +33,40 @@ help:
 	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
-## dependensies - fetch all dependencies for sripts
-dependencies:
-	${call colored, dependensies is running...}
-	./scripts/get-dependencies.sh
 
-## Dev mode - go run
-dev:
-	${call colored, dev is running...}
-	docker-compose up&
-	go run main.go
-.PHONY: dev
 
-## Compile binary
+## Cross system compile
 compile:
 	${call colored, compile is running...}
-	./scripts/compile.sh
+	./scripts/cross-compile.sh
 .PHONY: compile
 
 ## lint project
 lint:
 	${call colored, lint is running...}
-	./scripts/linters.sh
+	./scripts/run-linters.sh
 .PHONY: lint
+
+lint-ci:
+	${call colored, lint_ci is running...}
+	./scripts/run-linters-ci.sh
+.PHONY: lint-ci
+
+## format markdown files in project
+pretty-markdown:
+	find . -name '*.md' -not -wholename './vendor/*' | xargs prettier --write
+.PHONY: pretty-markdown
 
 ## Test all packages
 test:
 	${call colored, test is running...}
-	./scripts/tests.sh
+	./scripts/run-tests.sh
 .PHONY: test
 
 ## Test coverage
 test-cover:
 	${call colored, test-cover is running...}
-	go test -race -coverpkg=./... -v -coverprofile .testCoverage.out ./...
-	gocov convert .testCoverage.out | gocov report
+	./scripts/coverage.sh
 .PHONY: test-cover
 
 new-version: lint test compile
@@ -82,6 +81,37 @@ release:
 	./scripts/release.sh
 .PHONY: release
 
+## Fix imports sorting
+imports:
+	${call colored, sort and group imports...}
+	./scripts/fix-imports.sh
+.PHONY: imports
+
+## dependencies - fetch all dependencies for sripts
+dependencies:
+	${call colored, dependensies is running...}
+	./scripts/get-dependencies.sh
+.PHONY: dependencies
+
+## Docker compose up
+docker-up:
+	${call colored, docker is running...}
+	docker-compose -f ./docker-compose.yml up
+
+.PHONY: docker-up
+
+## Docker compose down
+docker-down:
+	${call colored, docker is running...}
+	docker-compose -f ./docker-compose.yml down --volumes
+
+.PHONY: docker-down
+
+## review code
+review:
+	${call colored, review is running...}
+	reviewdog -reporter=github-pr-check
+
+.PHONY: review
+
 .DEFAULT_GOAL := test
-
-

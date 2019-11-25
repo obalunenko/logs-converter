@@ -1,0 +1,10 @@
+LogLevel="Warn"
+LogsFilesListJSON='{}'
+DBURL="localhost:29800"
+DBName="myDB2"
+MongoCollection="logs2"
+DBUsername=""
+DBPassword=""
+DropDB=true
+FilesMustExist=false
+FollowFiles=false
