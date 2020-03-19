@@ -36,7 +36,9 @@ func Start(logName string, format string, mustExist bool, follow bool, resultCha
 
 	for line := range t.Lines {
 		cnt++
+
 		log.Debugf("File:[%s] Line tailed: [%v]", logName, line)
+
 		model, err := processLine(logName, line.Text, format, cnt)
 
 		if err != nil {
@@ -52,21 +54,28 @@ func Start(logName string, format string, mustExist bool, follow bool, resultCha
 }
 
 func processLine(logName string, line string, format string, lineNumber uint64) (*models.LogModel, error) {
+	const (
+		minLength   = 1
+		timePos     = 0
+		msgPos      = 1
+		timeWithMsg = 2
+	)
+
 	lineElements := strings.Split(line, " | ")
 
-	if len(lineElements) <= 1 {
+	if len(lineElements) <= minLength {
 		log.Errorf("processLine: [%s]: Line [%d] has wrong log structure: %s", logName, lineNumber, line)
 		return nil, fmt.Errorf("[%s]: Line [%d] has wrong log structure: %s", logName, lineNumber, line)
 	}
 
-	logTime, err := parseTime(lineElements[0], format)
+	logTime, err := parseTime(lineElements[timePos], format)
 	if err != nil {
 		return nil, err
 	}
 
-	msg := lineElements[1]
+	msg := lineElements[msgPos]
 	// For case when log message contain additional " | " to not miss other part of message
-	if len(lineElements) > 2 {
+	if len(lineElements) > timeWithMsg {
 		msg = strings.Join(lineElements[1:], " | ")
 	}
 

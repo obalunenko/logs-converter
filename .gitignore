@@ -21,6 +21,8 @@ dist/
 config\.toml
 
 \.scannerwork/
+mounts/
 
 \release/
 \.testCoverage.out/
+.env

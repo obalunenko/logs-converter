@@ -8,7 +8,6 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d0577205bbf648efaa3385369447923d)](https://app.codacy.com/app/oleg.balunenko/logs-converter?utm_source=github.com&utm_medium=referral&utm_content=oleg-balunenko/logs-converter&utm_campaign=Badge_Grade_Settings)
 [![Latest release artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
 
-
 # logs-converter
 
 <p align="center"><img src="https://github.com/oleg-balunenko/logs-converter/blob/master/docs/assets/projectavatar.png" width="360"></p>
@@ -87,7 +86,8 @@ Tool could be configured in 3 ways:
 
 ### Flags
 
-   ```text
+   ```bash
+
    -dropdb
       if true - will drop whole collection before starting to store all logs (default true)
    -log-level
@@ -116,7 +116,7 @@ Tool could be configured in 3 ways:
    -files-must-exist
       if true - will throw error when file is not exist; when false - wait for file create (default: true)
    -follow-files
-      if true - will tail file and wait for updates; when false - end file reading after EOF (defaultL true)     
+      if true - will tail file and wait for updates; when false - end file reading after EOF (defaultL true)
    ```
 
 ### TOML`config.toml` update following parameters to what you need
@@ -152,7 +152,6 @@ example of `config.toml`:
 export following environment variables with your values
 
 example:
-    
    ```bash
    export LOGSCONVERTER_DB_NAME="myDB"
    export LOGSCONVERTER_DB_PASSWORD=""

@@ -1,15 +1,34 @@
-version: "3.3"
+version: "3.7"
 services:
   mongo:
     image: "mongo:latest"
     container_name: "mongo"
+    networks:
+      - dev
     ports:
-      - "127.0.0.1:27017:27017"
-  mysql:
-    image: "mysql:latest"
-    container_name: "mysql"
-    restart: "always"
-    environment:
-      MYSQL_ROOT_PASSWORD: "test_pass" # TODO: Change this
-      MYSQL_USER: "test"
-      MYSQL_PASS: "pass"
+      - "27017:27017"
+    expose:
+      - 27017
+
+  logs-converter:
+    restart: unless-stopped
+    container_name: logs-converter
+    networks:
+      - dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+     
+    depends_on:
+      - mongo
+    volumes:
+      - ./mounts/logs-converter/testdata/:/testdata/
+
+networks:
+  dev:
+    driver: bridge
+
+volumes:
+  logs-converter:

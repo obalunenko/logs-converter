@@ -21,9 +21,11 @@ type mongoDB struct {
 
 // newMongoDBConnection establishes connection with mongoDB and return DBName object
 func newMongoDBConnection(url, dbName, collectionName, username, password string) (*mongoDB, error) {
+	var timeout = 60 * time.Second
+
 	mongoDBDialInfo := &mgo.DialInfo{
 		Addrs:    []string{url},
-		Timeout:  60 * time.Second,
+		Timeout:  timeout,
 		Database: dbName,
 		Username: username,
 		Password: password,

@@ -81,18 +81,23 @@ func process(dbc db.Repository, resChan <-chan *models.LogModel, signals <-chan 
 			return
 		case data := <-resChan:
 			totalRecCnt++
+
 			log.Debugf("Received model: %+v", data)
+
 			log.Infof("Current amount of received models is: [%d]", totalRecCnt)
 
 			id, errStore := dbc.Store(data)
 			if errStore != nil {
 				log.Errorf("Failed to store model...: %v", errStore)
 				failedToStoreCnt++
-			} else {
-				log.Debugf("Successfully stored model[id: %s] [%+v].", id, data)
-				storedModelsCnt++
-				log.Infof("Current amount of stored models: %d", storedModelsCnt)
+
+				continue
 			}
+
+			log.Debugf("Successfully stored model[id: %s] [%+v].", id, data)
+			storedModelsCnt++
+			log.Infof("Current amount of stored models: %d", storedModelsCnt)
+
 		case err := <-errorsChan:
 			if err != nil {
 				log.Errorf("Receive error: %v", err)

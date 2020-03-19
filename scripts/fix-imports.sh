@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 if [[ -f "$(go env GOPATH)/bin/gogroup" ]] || [[ -f "/usr/local/bin/gogroup" ]]; then
   gogroup -order std,other,prefix=github.com/oleg-balunenko/ --rewrite $(find . -type f -name "*.go" | grep -v "vendor/" | grep -v ".git")

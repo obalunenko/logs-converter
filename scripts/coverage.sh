@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 go test -race -coverpkg=./... -v -coverprofile coverage.out ./...
 gocov convert coverage.out | gocov report

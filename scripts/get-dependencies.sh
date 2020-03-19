@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
+set -e
 
-function get_dependencies() {
+get_dependencies() {
   cd .tools || exit
 
   declare -a packages=(

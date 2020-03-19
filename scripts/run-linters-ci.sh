@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
 SCRIPTS_DIR=${REPO_ROOT}/scripts
