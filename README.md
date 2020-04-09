@@ -7,6 +7,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/oleg-balunenko/logs-converter/badge)](https://www.codefactor.io/repository/github/oleg-balunenko/logs-converter)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d0577205bbf648efaa3385369447923d)](https://app.codacy.com/app/oleg.balunenko/logs-converter?utm_source=github.com&utm_medium=referral&utm_content=oleg-balunenko/logs-converter&utm_campaign=Badge_Grade_Settings)
 [![Latest release artifacts](https://img.shields.io/badge/artifacts-download-blue.svg)](https://github.com/oleg-balunenko/logs-converter/releases/latest)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Foleg-balunenko%2Flogs-converter.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Foleg-balunenko%2Flogs-converter?ref=badge_shield)
 
 # logs-converter
 
@@ -164,3 +165,7 @@ example:
    export LOGSCONVERTER_LOGS_FILES_LIST_JSON='{"testdata/testfile1.log":"second_format","testdata/dir1/testfile2.log":"first_format"}'
    export LOGSCONVERTER_MONGO_COLLECTION="logs"
    ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Foleg-balunenko%2Flogs-converter.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Foleg-balunenko%2Flogs-converter?ref=badge_large)
