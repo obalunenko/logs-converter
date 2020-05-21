@@ -21,14 +21,14 @@ github.com/hpcloud/tail/winfile
 # github.com/koding/multiconfig v0.0.0-20171124222453-69c27309b2d7
 ## explicit
 github.com/koding/multiconfig
-# github.com/konsorten/go-windows-terminal-sequences v1.0.1
+# github.com/konsorten/go-windows-terminal-sequences v1.0.3
 github.com/konsorten/go-windows-terminal-sequences
 # github.com/pkg/errors v0.9.1
 ## explicit
 github.com/pkg/errors
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
-# github.com/sirupsen/logrus v1.5.0
+# github.com/sirupsen/logrus v1.6.0
 ## explicit
 github.com/sirupsen/logrus
 # github.com/stretchr/testify v1.5.1
